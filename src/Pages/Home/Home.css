@@ -1,0 +1,11 @@
+.botones{
+    align-items: center;
+}
+.boton{
+    margin-left: 5px;
+}
+.logout{
+    direction:rtl;
+    position: relative;
+    padding-left: 15px;
+}

@@ -1,0 +1,16 @@
+.createColeccion{
+    display: flex;
+    flex-direction: column;
+    background-color:dimgrey;
+    align-items: center;
+}
+.component{
+    text-align: center
+}
+.filter-input{
+    direction: ltr;
+    size: 25%;
+}
+.edit-control{
+    align-items: flex-end;
+}
