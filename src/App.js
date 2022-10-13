@@ -11,10 +11,11 @@ import PersonProfile from './Pages/Personal/PersonProfile';
 import Equipos from './Pages/Equipos/Equipos';
 import EquipoProfile from './Pages/Equipos/EquipoProfile';
 import Tareas from './Pages/Tareas/Tareas'
+import Usuarios from './Pages/Usuarios/Usuarios'
 import DeadEnd from './Pages/DeadEnd';
 function App() {
   return (
-    <div>
+    <div>        
       <Router>
         <Routes>
           <Route path='/' element={<Login/>}/>
@@ -28,6 +29,7 @@ function App() {
           <Route path='/equipos' element={<Equipos />}/>
           <Route path='/equipos/:id' element={<EquipoProfile />}/>
           <Route path='/tareas' element={<Tareas/>}/>
+          <Route path='/usuarios' element={<Usuarios/>}/>
           <Route path='*' element={<DeadEnd />} />
         </Routes>
       </Router>

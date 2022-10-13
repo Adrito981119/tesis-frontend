@@ -14,6 +14,7 @@ function Login() {
  const [authState, setAuthState]=useState(false)
 
  useEffect(()=>{
+  localStorage.removeItem('token')
   axios.get('http://localhost:3001/api/auth/verify',{headers: {'token': localStorage.getItem('token')}}).then((res)=>{
     if(res.data.error){
       setAuthState(false)

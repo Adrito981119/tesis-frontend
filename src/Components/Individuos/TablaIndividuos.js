@@ -1,30 +1,34 @@
 import React from 'react'
 import { useEffect, useState} from 'react';
-import Button from 'react-bootstrap/esm/Button';
-import Table from 'react-bootstrap/Table'
+import {Button, Table,InputGroup,Alert} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../Pages/Colecciones/Colecciones.css'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import InputGroup from 'react-bootstrap/InputGroup';
+import {BsFillEmojiFrownFill} from 'react-icons/bs'
 import Form from 'react-bootstrap/Form';
 
 function TablaIndividuos() {
 
     let navigator = useNavigate();
 
-    const [listIndividuos, setListIndividuos] = useState([]);
+    const [individuos, setIndividuos] = useState([]);
   
     useEffect(() => {
     axios.get('http://localhost:3001/api/individuos',{headers:{'token': localStorage.getItem('token')}}).then((res)=>{  
-          setListIndividuos(res.data)
+          setIndividuos(res.data)
       },)
   }, []);
 
 
   return (
     <div>
-    <div name='filtrado'>
+    {
+      individuos.length===0?
+      <>
+      <Alert variant='danger' style={{textAlign: 'center', marginTop: '25px'}}>No existen elementos para mostrar <BsFillEmojiFrownFill/></Alert>
+      </>:
+      <>
+      <div name='filtrado'>
     <label className='form-label'>Filtrar elementos</label>
     <InputGroup>
       <Form.Control placeholder='ID'></Form.Control>
@@ -49,7 +53,7 @@ function TablaIndividuos() {
           </tr>
         </thead>
         <tbody>
-        {listIndividuos.map((value)=>{
+        {individuos.map((value)=>{
             return (
             <tr key={value.id}>
             <td>{value.id}</td>
@@ -67,6 +71,8 @@ function TablaIndividuos() {
         </tbody>         
       </Table>
     </div>   
+      </>
+    }
   </div>
   )
 }

@@ -5,6 +5,7 @@ import axios from 'axios';
 import {Formik, Form} from 'formik'
 import * as Yup from 'yup'
 import Formulario from '../../Components/Formulario.js';
+import Menu from '../../Components/Menu/Menu'
 
 function Colecciones() {
 
@@ -38,6 +39,7 @@ function Colecciones() {
 
   return (
   <div>
+    <Menu/>
     <Tabs defaultActiveKey='tabla' className='mb-3'>
       <Tab eventKey='tabla' title='Tabla de colecciones'><TablaColeccion /></Tab>
       <Tab eventKey='formulario' title='Crear coleccion'>

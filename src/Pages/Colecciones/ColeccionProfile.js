@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import CustomOffCanvas from '../../Components/CustomOffCanvas';
 import DeleteModal from '../../Components/DeleteModal'
+import Menu from '../../Components/Menu/Menu';
 function ColeccionProfile() {
 
     let navigator = useNavigate();
@@ -52,6 +53,7 @@ function ColeccionProfile() {
 
   return (
     <div>
+      <Menu />
       <Container fluid='true'>
         <Row mb-1='true'>
 

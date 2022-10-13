@@ -1,27 +1,34 @@
 import React from 'react'
 import { useEffect, useState} from 'react';
-import {Button,Table,Form, InputGroup} from 'react-bootstrap';
+import {Button,Table,Form, InputGroup,Alert} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../Pages/Colecciones/Colecciones.css'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import {BsFillEmojiFrownFill} from 'react-icons/bs'
 
 
 function TablaPersonal() {
 
     let navigator = useNavigate();
 
-    const [listPersonal, setListPersonal] = useState([]);
+    const [personal, setPersonal] = useState([]);
   
     useEffect(() => {
     axios.get('http://localhost:3001/api/personal',{headers:{'token': localStorage.getItem('token')}}).then((res)=>{ 
-          setListPersonal(res.data)
+          setPersonal(res.data)
       },)
   }, []);
 
   return (
     <div>
-    <div name='filtrado'>
+      {
+        personal.length===0?
+        <>
+        <Alert variant='danger' style={{textAlign: 'center', marginTop: '25px'}}>No existe elementos para mostrar<BsFillEmojiFrownFill/></Alert>
+        </>:
+        <>
+        <div name='filtrado'>
     <label className='form-label'>Filtrar elementos</label>
     <InputGroup>
       <Form.Control placeholder='Carnet de identidad'></Form.Control>
@@ -43,11 +50,11 @@ function TablaPersonal() {
           </tr>
         </thead>
         <tbody>
-        {listPersonal.map((value)=>{
+        {personal.map((value)=>{
             return (
             <tr key={value.ci}>
             <td>{value.ci}</td>
-            <td>{value.nombre} {value.pApellido} {value.sApellido}</td>
+            <td style={{textTransform: 'capitalize'}}>{value.fullname}</td>
             <td>{value.email}</td>
             <td>{value.telefono}</td>
             <td>{value.cargo}</td>
@@ -58,6 +65,9 @@ function TablaPersonal() {
         </tbody>         
       </Table>
     </div>   
+        </>
+      }
+    
   </div>
   )
 }

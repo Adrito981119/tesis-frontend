@@ -1,0 +1,12 @@
+.botones{
+    position: relative;
+    justify-content: center;
+}
+.boton{
+    margin-left: 5px;
+}
+.logout{
+    position: relative;
+    right: absolute;
+    padding-left: 15px;
+}

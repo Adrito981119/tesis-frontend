@@ -1,11 +1,11 @@
 import React from 'react'
 import { useEffect, useState} from 'react';
-import {Button,Table,InputGroup,Form,Modal} from 'react-bootstrap';
+import {Table,InputGroup,Form,Alert} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../../Pages/Colecciones/Colecciones.css'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-
+import {BsFillCalendarXFill}from 'react-icons/bs'
 function TablaTerminadas() {
 
     const [taskList, setTaskList] = useState([]);
@@ -19,7 +19,10 @@ function TablaTerminadas() {
 
   return (
     <div>
-
+      {
+        taskList.length===0?
+        <><Alert variant='danger' style={{textAlign: 'center', marginTop: '25px'}}>No existe elementos para mostrar <BsFillCalendarXFill/></Alert></>:
+        <>
         <div name='filtrado'>
         <label className='form-label'>Filtrar elementos</label>
         <InputGroup>
@@ -51,7 +54,8 @@ function TablaTerminadas() {
               })} 
             </tbody>         
           </Table>
-        </div>
+        </div></>
+      }
     </div>
   )
 }

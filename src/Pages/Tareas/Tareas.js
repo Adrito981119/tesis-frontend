@@ -7,6 +7,8 @@ import Formulario from '../../Components/Formulario'
 import * as Yup from 'yup'
 import TablaTareas from '../../Components/Tareas/TablaTareas'
 import TablaTerminadas from '../../Components/Tareas/TablaTerminadas'
+import Menu from '../../Components/Menu/Menu'
+import {BsFillCalendarPlusFill}from 'react-icons/bs'
 
 
 function Tareas() {
@@ -37,45 +39,46 @@ function Tareas() {
   
   return (
     <div>
-<Tabs>
-  <Tab eventKey='pendientes' title='Tareas pendientes'>
-<Container fluid='true'>
-        <Row mb-1='true'>
-          <Col name='tabla'>
-            <TablaTareas />
-          </Col>
+      <Menu/>
+      <Tabs>
+        <Tab eventKey='pendientes' title='Tareas pendientes'>
+          <Container fluid='true'>
+              <Row mb-1='true'>
+                <Col name='tabla'>
+                  <TablaTareas />
+                </Col>
 
-          <Col name="formulario">
-            <Card style={{width: '95%'}}> 
-              <Card.Title style={{alignSelf: 'center'}}>Programar tarea</Card.Title>
-              <Card.Body>
-                <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={tareaSchema}>
-                  <Form>
-                    <Formulario campos={[
-                        {label:'Fecha de inicio', data:'fechainicio', type: 'date'},
-                        {label:'Fecha limite', data:'fechafin', type: 'date'},
-                    ]}/>
-                    <Card.Text>Descripcion</Card.Text>
-                    <Field as='textarea' name='descripcion' className="form-control" placeholder="Descripcion"></Field>
-                    <ErrorMessage name='descripcion' component='span'></ErrorMessage>
+                <Col name="formulario">
+                  <Card style={{width: '95%'}}> 
+                    <Card.Title style={{alignSelf: 'center'}}>Programar tarea</Card.Title>
+                    <Card.Body>
+                      <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={tareaSchema}>
+                        <Form>
+                          <Formulario campos={[
+                              {label:'Fecha de inicio', data:'fechainicio', type: 'date'},
+                              {label:'Fecha limite', data:'fechafin', type: 'date'},
+                          ]}/>
+                          <Card.Text>Descripcion</Card.Text>
+                          <Field as='textarea' name='descripcion' className="form-control" placeholder="Descripcion"></Field>
+                          <ErrorMessage name='descripcion' component='span'></ErrorMessage>
 
-                    <div style={{marginTop: '35px'}}>
-                    <Button variant='success' type='submit'>Añadir</Button>
-                    </div>
-                  </Form>
-                </Formik>
-              </Card.Body>
-            </Card>
-          </Col>  
-        </Row>
-    </Container>
-  </Tab>
+                          <div style={{marginTop: '35px'}}>
+                          <Button variant='success' type='submit'>Añadir</Button>
+                          </div>
+                        </Form>
+                      </Formik>
+                    </Card.Body>
+                  </Card>
+                </Col>  
+              </Row>
+          </Container>
+        </Tab>
 
-  <Tab eventKey='terminadas' title='Tareas completadas'>
-    <TablaTerminadas />
-  </Tab>
-</Tabs>
-    </div>
+        <Tab eventKey='terminadas' title='Tareas completadas'>
+          <TablaTerminadas />
+        </Tab>
+      </Tabs>
+          </div>
   )
 }
 

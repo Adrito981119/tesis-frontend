@@ -18,6 +18,7 @@ function Formulario(props) {
                             name={value.data}
                             type={value.type}
                             placeholder={value.placeholder}
+                            style={value.style}
                             />
                             <div> <ErrorMessage name={value.data} component='span'/></div>
                     </div>

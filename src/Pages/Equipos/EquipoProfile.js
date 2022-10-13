@@ -5,6 +5,7 @@ import {Container, Row,Col,Card,Button,Table} from 'react-bootstrap'
 import { Formik, Form, Field } from 'formik'
 import Formulario from '../../Components/Formulario'
 import * as Yup from 'yup'
+import Menu from '../../Components/Menu/Menu'
 import './Equipos.css'
 
 function EquipoProfile() { 
@@ -73,6 +74,7 @@ function EquipoProfile() {
       
   return (
     <div>
+      <Menu/>
             <Container fluid='true'>
         <Row mb-1='true'>
 

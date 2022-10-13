@@ -8,24 +8,32 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
+import { Alert } from 'bootstrap';
+import {BsFillEmojiFrownFill} from 'react-icons/bs'
 
 
 function MembersTable() {
     let navigator = useNavigate();
-    const [listTeams, setListTeams] = useState([]);
+    const [members, setMembers] = useState([]);
   
     useEffect(() => {
     axios.get('http://localhost:3001/api/equipos',{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
       if(res.data.error){
           alert(res.data.err)
         }else{    
-          setListTeams(res.data)}
+          setMembers(res.data)}
       },)
   }, []);
 
   return (
     <div>
-                <div name='filtrado'>
+       {
+        members.length===0?
+        <>
+        <Alert variant='danger' style={{textAlign: 'center', marginTop: '25px'}}>Este equipo no tiene ningun miembro <BsFillEmojiFrownFill/></Alert>
+        </>:
+        <>
+         <div name='filtrado'>
         <label className='form-label'>Filtrar elementos</label>
         <InputGroup>
           <Form.Control placeholder='ID'></Form.Control>
@@ -43,7 +51,7 @@ function MembersTable() {
               </tr>
             </thead>
             <tbody>
-            {listTeams.map((value)=>{
+            {members.map((value)=>{
                 return (
                 <tr key={value.id}>
                     <td>{value.id}</td>
@@ -56,6 +64,8 @@ function MembersTable() {
             </tbody>         
           </Table>
         </div> 
+        </>
+       }
     </div>
   )
 }

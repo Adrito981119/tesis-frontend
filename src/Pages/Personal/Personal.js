@@ -8,27 +8,23 @@ import axios from 'axios';
 import {Formik, Form} from 'formik'
 import * as Yup from 'yup'
 import Formulario from '../../Components/Formulario.js';
+import Menu from '../../Components/Menu/Menu'
 
 
 
 function Personal() {
     const initialValues={
         ci:'',
-        nombre:'',
-        pApellido: null,
-        sApellido: null,
+        fullname:'',
         email:'',
         telefono:'',
         cargo:''
     }
   
     const onSubmit=(data)=>{
-      const FullName = data.nombre.split(' ')
         const person = {
           ci: data.ci,
-          nombre: FullName[0],
-          pApellido: FullName[1],
-          sApellido: FullName[2],
+          fullname: data.fullname,
           email: data.email.toLowerCase(),
           telefono: data.telefono,
           cargo: data.cargo
@@ -39,31 +35,24 @@ function Personal() {
     })}
 
 
-/*     Yup.addMethod(Yup.string,'ValidateCi',(errorMessage)=>{
-      return this.test('test-validate-ci',errorMessage,(value)=>{
-        const ci = value
-        const {path, createError} = this
-        if(ci[2]+ci[3]==='02' && ci[4]+ci[5]==='30'){
-            return createError({path,message: '30 de febrero :v'})
-         }
-      })
-  }) */
 
   const ciRegex = '^[0-9]+[0-9]$'
   const nameRegex = '^[a-zA-Z ]+[a-zA-Z ]$'
+  const phoneRegex = '^[+53 ]+[5]+[0-9]+[0-9]$'
   
-    const coleccionSchema= Yup.object().shape({
+    const personaSchema= Yup.object().shape({
       ci: Yup.string().matches(ciRegex,{message: 'El carnet de identidad no puede contener letras'})
       .min(11,'El carnet de identidad debe contener 11 caracteres')
       .max(11,'El carnet de identidad debe contener 11 caracteres')
       .required('Este campo es obligatorio'),
-      nombre:Yup.string().matches(nameRegex,{message: 'El nombre solo puede contener letras'}).required('Este campo es obligatorio'),
+      fullname:Yup.string().matches(nameRegex,{message: 'El nombre solo puede contener letras'}).required('Este campo es obligatorio'),
       email: Yup.string().email('No es un email valido'),
-      telefono: Yup.number('Deben ser un NUMERO').positive('a ETECSA no le gusta tu numero de telefono'),
+      telefono: Yup.string('Debe ser un NUMERO').matches(phoneRegex,{message: 'El formato no es valido. Ej: +53 55555555'}),
       cargo:Yup.string(),
     })
   return (
     <div>
+      <Menu/>
     <Tabs defaultActiveKey='tabla' className='mb-3'>
       <Tab eventKey='tabla' title='Tabla de personal'><TablaPersonal /></Tab>
       <Tab eventKey='formulario' title='Nuevo personal'>
@@ -71,14 +60,14 @@ function Personal() {
       <Card style={{ width: '75%', margin: 'auto', marginTop: '50px' }} bg='light'>
         <Card.Body>
           <Card.Title>Personal</Card.Title>
-          <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={coleccionSchema}>
+          <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={personaSchema}>
             <Form>
 
             <Formulario campos={[
                 {label:'Carnet de identidad', data:'ci', type: 'text',placeholder: 'Carnet de identidad'},
-                {label:'Nombre completo', data:'nombre', type: 'text',placeholder: 'Los apellidos son opcionales'},
+                {label:'Nombre completo', data:'fullname', type: 'text',placeholder: 'Los apellidos son opcionales', style: {textTransform: 'capitalize'} },
                 {label:'Email', data:'email', type: 'email',placeholder: 'Case insensitive'},
-                {label:'Telefono', data:'telefono', type: 'number',placeholder: 'Puede ser movil o fijo'},
+                {label:'Telefono', data:'telefono', type: 'text',placeholder: 'Puede ser movil o fijo'},
                 {label:'Cargo', data:'cargo', type: 'text',placeholder: 'Plaza que ocupa'},
             ]}/>
 

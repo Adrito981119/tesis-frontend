@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import DeleteModal from '../../Components/DeleteModal';
 import CustomOffCanvas from '../../Components/CustomOffCanvas';
+import Menu from '../../Components/Menu/Menu'
 
 function PersonProfile() {
   let navigator = useNavigate();
@@ -50,6 +51,7 @@ function PersonProfile() {
 
   return (
     <div>
+      <Menu/>
             <Container fluid='true'>
         <Row mb-1='true'>
           <Col>

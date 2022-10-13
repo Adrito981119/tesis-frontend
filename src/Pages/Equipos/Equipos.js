@@ -5,6 +5,7 @@ import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import TablaEquipos from '../../Components/Equipos/TablaEquipos'
 import Formulario from '../../Components/Formulario'
+import Menu from '../../Components/Menu/Menu'
 import './Equipos.css'
 
 function Equipos() {
@@ -27,6 +28,7 @@ const teamSchema= Yup.object().shape({
 
   return (
     <div>
+      <Menu/>
     <Container fluid='true'>
         <Row mb-1='true'>
 

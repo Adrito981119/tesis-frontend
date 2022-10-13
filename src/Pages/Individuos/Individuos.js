@@ -7,6 +7,7 @@ import Formulario from '../../Components/Formulario.js';
 import SelectComponent from '../../Components/SelectComponent.js';
 import TablaIndividuos from '../../Components/Individuos/TablaIndividuos.js';
 import { useNavigate } from 'react-router-dom';
+import Menu from '../../Components/Menu/Menu'
 
 function Individuos() {
     const navigator = useNavigate()
@@ -42,6 +43,7 @@ function Individuos() {
 
   return (
     <div>
+      <Menu/>
         <Tabs defaultActiveKey='tabla' className='mb-3'>
       <Tab eventKey='tabla' title='Tabla de individuos'><TablaIndividuos /></Tab>
       <Tab eventKey='formulario' title='Crear individuo'>
