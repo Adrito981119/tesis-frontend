@@ -1,6 +1,6 @@
 import {React} from 'react'
 import TablaColeccion from '../../Components/Colecciones/TablaColeccion.js'
-import {Tab, Tabs, Button,Card} from 'react-bootstrap';
+import {Tab, Tabs, Button,Card, Container,Row,Col} from 'react-bootstrap';
 import axios from 'axios';
 import {Formik, Form} from 'formik'
 import * as Yup from 'yup'
@@ -38,10 +38,25 @@ function Colecciones() {
 
 
   return (
-  <div>
+  <div className='component'>
     <Menu/>
-    <Tabs defaultActiveKey='tabla' className='mb-3'>
-      <Tab eventKey='tabla' title='Tabla de colecciones'><TablaColeccion /></Tab>
+    <Container fluid>
+    <Tabs defaultActiveKey='tabla'>
+      <Tab eventKey='tabla' title='Tabla de colecciones'>
+        <Row>
+          <Col>
+          <Card>
+            <Card.Header>Tabla de colecciones</Card.Header>
+            <Card.Body>
+              <TablaColeccion />
+            </Card.Body>
+          </Card>
+
+          </Col>
+        </Row>
+
+      </Tab>
+
       <Tab eventKey='formulario' title='Crear coleccion'>
 
       <Card style={{ width: '75%', margin: 'auto', marginTop: '50px' }} bg='light'>
@@ -70,6 +85,7 @@ function Colecciones() {
       </Card>
     </Tab>
     </Tabs>
+    </Container>
     </div>
   )
 }

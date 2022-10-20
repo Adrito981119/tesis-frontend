@@ -1,9 +1,7 @@
 import React from 'react'
 import TablaPersonal from '../../Components/Personal/TablaPersonal.js';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
-import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/esm/Button';
+import {Tab, Tabs,Card,Button,Container,Row,Col} from 'react-bootstrap';
+import './Personal.css'
 import axios from 'axios';
 import {Formik, Form} from 'formik'
 import * as Yup from 'yup'
@@ -51,37 +49,52 @@ function Personal() {
       cargo:Yup.string(),
     })
   return (
-    <div>
+    <div className='component'>
       <Menu/>
-    <Tabs defaultActiveKey='tabla' className='mb-3'>
-      <Tab eventKey='tabla' title='Tabla de personal'><TablaPersonal /></Tab>
-      <Tab eventKey='formulario' title='Nuevo personal'>
+      <Container>
+        <Tabs defaultActiveKey='tabla' className='mb-3'>
+          <Tab eventKey='tabla' title='Tabla de personal'>
+          <Row>
+            <Col>
+            <Card>
+              <Card.Header>Personal</Card.Header>
+              <Card.Body>
+                <TablaPersonal />
+              </Card.Body>
+            </Card>
+            </Col>
+          </Row>
 
-      <Card style={{ width: '75%', margin: 'auto', marginTop: '50px' }} bg='light'>
-        <Card.Body>
-          <Card.Title>Personal</Card.Title>
-          <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={personaSchema}>
-            <Form>
+            
+            </Tab>
+          <Tab eventKey='formulario' title='Nuevo personal'>
 
-            <Formulario campos={[
-                {label:'Carnet de identidad', data:'ci', type: 'text',placeholder: 'Carnet de identidad'},
-                {label:'Nombre completo', data:'fullname', type: 'text',placeholder: 'Los apellidos son opcionales', style: {textTransform: 'capitalize'} },
-                {label:'Email', data:'email', type: 'email',placeholder: 'Case insensitive'},
-                {label:'Telefono', data:'telefono', type: 'text',placeholder: 'Puede ser movil o fijo'},
-                {label:'Cargo', data:'cargo', type: 'text',placeholder: 'Plaza que ocupa'},
-            ]}/>
+          <Card style={{ width: '75%', margin: 'auto', marginTop: '50px' }} bg='light'>
+            <Card.Body>
+              <Card.Title>Personal</Card.Title>
+              <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={personaSchema}>
+                <Form>
+
+                <Formulario campos={[
+                    {label:'Carnet de identidad', data:'ci', type: 'text',placeholder: 'Carnet de identidad'},
+                    {label:'Nombre completo', data:'fullname', type: 'text',placeholder: 'Los apellidos son opcionales', style: {textTransform: 'capitalize'} },
+                    {label:'Email', data:'email', type: 'email',placeholder: 'Case insensitive'},
+                    {label:'Telefono', data:'telefono', type: 'text',placeholder: 'Puede ser movil o fijo'},
+                    {label:'Cargo', data:'cargo', type: 'text',placeholder: 'Plaza que ocupa'},
+                ]}/>
 
 
-            <div style={{marginTop: '35px'}}>
-            <Button variant='success' type='submit'>Añadir</Button>
-            <Button variant='danger' type='button' style={{marginLeft:'15px'}}>Cancelar</Button>
-            </div>
-            </Form>
-          </Formik>
-        </Card.Body>
-      </Card>
-    </Tab>
-    </Tabs>
+                <div style={{marginTop: '35px'}}>
+                <Button variant='success' type='submit'>Añadir</Button>
+                <Button variant='danger' type='button' style={{marginLeft:'15px'}}>Cancelar</Button>
+                </div>
+                </Form>
+              </Formik>
+            </Card.Body>
+          </Card>
+        </Tab>
+        </Tabs>
+    </Container>
     </div>
   )
 }

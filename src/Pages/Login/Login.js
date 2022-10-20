@@ -32,17 +32,17 @@ function Login() {
 
 const onSubmit=(data)=>{axios.post('http://localhost:3001/auth/login',data).then((res)=>{
   if(res.data.error){
-    alert(res.data.error)
+    alert(res.data)
   }else{
     localStorage.setItem('token',res.data)
-    navigator('/home')
+    navigator('/mapa')
   }
 
 })}
 
 const loginSchema= Yup.object().shape({
-    username: Yup.string().required('El nombre de usuario esta vacio'),
-    password: Yup.string().required('El campo contraseña esta vacio')
+    username: Yup.string().required('El nombre de usuario esta vacío'),
+    password: Yup.string().required('El campo contraseña esta vacío')
 })
 
 

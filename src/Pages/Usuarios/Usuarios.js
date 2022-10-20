@@ -28,13 +28,17 @@ function Usuarios() {
         };
 
         const onSubmit=(data)=>{
-            const usuario = {usuario: data.owner}
-            axios.post('http://localhost:3001/auth',data,{headers:{'token': localStorage.getItem('token')}})
-            
-            axios.put(`http://localhost:3001/api/personal/${data.owner}`,usuario).then((res)=>{
-                console.log(res.data)
-                window.location.reload(false)
+            const usuario = {usuario: data.username}
+            console.log(usuario)
+            axios.post('http://localhost:3001/auth',data,{headers:{'token': localStorage.getItem('token')}}).then(()=>{
+                axios.put(`http://localhost:3001/api/personal/${data.owner}`,usuario)
+                .then((res)=>{
+                    console.log(res.data)
+                    window.location.reload(false)
+                })
             })
+
+
         }
         
         
@@ -45,11 +49,18 @@ function Usuarios() {
           })
     
   return (
-    <div>
+    <div className='component'>
         <Menu/>
         <Container fluid>
         <Row>
-            <Col><TablaUsuarios /></Col>
+            <Col>
+            <Card>
+                <Card.Header>Usuarios</Card.Header>
+                <Card.Body>
+                    <TablaUsuarios />
+                    </Card.Body>
+            </Card>
+            </Col>
             <Col>
             <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={userSchema}>
                 <Form>

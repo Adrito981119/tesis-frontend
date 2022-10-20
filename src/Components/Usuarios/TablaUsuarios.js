@@ -13,6 +13,18 @@ function TablaUsuarios() {
       },)
   }, []);
 
+  const onDelete = (id)=>{
+    axios.delete(`http://localhost:3001/auth/users/${id}`,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
+      alert(res.data)
+      window.location.reload(false)
+    })
+  }
+  const resetPassword = (id)=>{
+    axios.put(`http://localhost:3001/auth/users/resetpassword/${id}`).then((res)=>{
+      alert(res.data)
+    })
+  }
+
   return (
     <div>
         <div name='filtrado'>
@@ -39,8 +51,8 @@ function TablaUsuarios() {
                 <tr key={value.owner}>
                     <td>{value.owner}</td>
                     <td>{value.username}</td>
-                    <td><Button variant='warning'>Reiniciar</Button></td>
-                    <td><Button variant='danger'>Eliminar</Button></td>
+                    <td><Button variant='warning' onClick={()=>{resetPassword(value.id)}}>Reiniciar</Button></td>
+                    <td><Button variant='danger' onClick={()=>{onDelete(value.id)}}>Eliminar</Button></td>
                 </tr>
                 )
               })} 

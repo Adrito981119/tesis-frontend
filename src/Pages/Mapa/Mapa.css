@@ -1,15 +1,16 @@
+.mapa{
+    height: 100%;
+    width: 100%;
+
+}
+.map.wrapper{
+align-items: center;
+justify-content: center;
+}
 .component{
     background-color:  #282c34;
     background-size: cover;
     height: 100vh;
     text-align: center;
     justify-content: center;
-}
-
-.filter-input{
-    direction: ltr;
-    size: 25%;
-}
-.edit-control{
-    align-items: flex-end;
 }

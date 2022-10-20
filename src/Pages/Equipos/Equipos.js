@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import {Container, Row,Col,Button} from 'react-bootstrap'
+import {Container, Row,Col,Button,Card} from 'react-bootstrap'
 import { Formik, Form } from 'formik'
 import * as Yup from 'yup'
 import TablaEquipos from '../../Components/Equipos/TablaEquipos'
@@ -27,17 +27,25 @@ const teamSchema= Yup.object().shape({
 })
 
   return (
-    <div>
+    <div className='component'>
       <Menu/>
     <Container fluid='true'>
-        <Row mb-1='true'>
-
-          <Col name='tabla'>
-            <TablaEquipos />
+        <Row>
+        <Col name='tabla'>
+            <Card>
+              <Card.Header>Equipos de trabajo</Card.Header>
+              <Card.Body>
+              <TablaEquipos />
+              </Card.Body>
+            </Card>
+            
           </Col>
 
-          <Col name="formulario">
-            <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={teamSchema}>
+          <Col name="formulario" >
+            <Card>
+              <Card.Header>Crear equipo</Card.Header>
+              <Card.Body>
+              <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={teamSchema}>
                 <Form>
                     <Formulario campos={[
                     {label: 'Nombre', data: 'nombre', placeholder: 'Nombre del equipo'}
@@ -45,6 +53,8 @@ const teamSchema= Yup.object().shape({
                     <Button variant='success' type='submit' style={{marginTop: '10px'}}>Añadir equipo</Button>
                 </Form>
             </Formik>
+              </Card.Body>
+            </Card>
           </Col>  
         </Row>
     </Container>

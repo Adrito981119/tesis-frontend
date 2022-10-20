@@ -12,6 +12,7 @@ import Equipos from './Pages/Equipos/Equipos';
 import EquipoProfile from './Pages/Equipos/EquipoProfile';
 import Tareas from './Pages/Tareas/Tareas'
 import Usuarios from './Pages/Usuarios/Usuarios'
+import Mapa from './Pages/Mapa/Mapa';
 import DeadEnd from './Pages/DeadEnd';
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path='/equipos/:id' element={<EquipoProfile />}/>
           <Route path='/tareas' element={<Tareas/>}/>
           <Route path='/usuarios' element={<Usuarios/>}/>
+          <Route path='/mapa' element={<Mapa/>}/>
           <Route path='*' element={<DeadEnd />} />
         </Routes>
       </Router>

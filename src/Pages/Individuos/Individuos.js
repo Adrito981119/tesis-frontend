@@ -1,5 +1,5 @@
 import React from 'react'
-import {Tab, Tabs, Card, Button, Row, Col} from 'react-bootstrap';
+import {Tab, Tabs, Card, Button, Row, Col, Container} from 'react-bootstrap';
 import axios from 'axios';
 import {Formik, Form} from 'formik'
 import * as Yup from 'yup'
@@ -8,6 +8,7 @@ import SelectComponent from '../../Components/SelectComponent.js';
 import TablaIndividuos from '../../Components/Individuos/TablaIndividuos.js';
 import { useNavigate } from 'react-router-dom';
 import Menu from '../../Components/Menu/Menu'
+import './Individuos.css'
 
 function Individuos() {
     const navigator = useNavigate()
@@ -42,15 +43,25 @@ function Individuos() {
 
 
   return (
-    <div>
+    <div className='component'>
       <Menu/>
-        <Tabs defaultActiveKey='tabla' className='mb-3'>
-      <Tab eventKey='tabla' title='Tabla de individuos'><TablaIndividuos /></Tab>
+      <Container fluid>
+        <Tabs defaultActiveKey='tabla'>
+      <Tab eventKey='tabla' title='Tabla de individuos'>
+        <Card>
+          <Card.Header>Tabla de individuos</Card.Header>
+          <Card.Body>
+            <TablaIndividuos />
+          </Card.Body>
+        </Card>
+
+        
+        </Tab>
       <Tab eventKey='formulario' title='Crear individuo'>
 
-      <Card style={{ width: '75%', margin: 'auto', marginTop: '50px' }} bg='light'>
+      <Card style={{ width: '75%', margin: 'auto', marginTop: '50px' }}>
+      <Card.Header>Nuevo individuo</Card.Header>
         <Card.Body>
-          <Card.Title>Nuevo individuo</Card.Title>
           <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={coleccionSchema}>
             <Form>
             <Formulario campos={[
@@ -81,6 +92,7 @@ function Individuos() {
       </Card>
     </Tab>
     </Tabs>
+    </Container>
     </div>
   )
 }

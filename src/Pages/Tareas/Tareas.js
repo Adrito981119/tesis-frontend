@@ -38,14 +38,19 @@ function Tareas() {
   })
   
   return (
-    <div>
+    <div className='component'>
       <Menu/>
+      <Container fluid>
       <Tabs>
         <Tab eventKey='pendientes' title='Tareas pendientes'>
-          <Container fluid='true'>
-              <Row mb-1='true'>
+              <Row>
                 <Col name='tabla'>
-                  <TablaTareas />
+                  <Card>
+                    <Card.Header>Nueva Tarea</Card.Header>
+                    <Card.Body>
+                      <TablaTareas />
+                      </Card.Body>
+                  </Card>
                 </Col>
 
                 <Col name="formulario">
@@ -71,13 +76,14 @@ function Tareas() {
                   </Card>
                 </Col>  
               </Row>
-          </Container>
+
         </Tab>
 
         <Tab eventKey='terminadas' title='Tareas completadas'>
           <TablaTerminadas />
         </Tab>
       </Tabs>
+      </Container>
           </div>
   )
 }

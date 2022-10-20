@@ -9,3 +9,15 @@
     position: relative;
     padding-left: 15px;
 }
+.welcome{
+    align-items: center;
+    justify-content: center;
+    color: aliceblue;
+}
+.component-bg{
+    background-color: #282c34;
+    background-size: cover;
+    height: 100vh;  
+    align-items: center;  
+    justify-content: center;
+}
