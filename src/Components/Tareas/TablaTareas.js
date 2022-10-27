@@ -1,10 +1,9 @@
 import React from 'react'
 import { useEffect, useState} from 'react';
 import {Button,Table,Alert} from 'react-bootstrap';
-import {Formik,Form} from 'formik'
+import {Formik,Form,Field,ErrorMessage} from 'formik'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
-import Formulario from '../../Components/Formulario'
 import CustomModal from '../CustomModal';
 import * as Yup from 'yup'
 import {BsFillCalendarXFill}from 'react-icons/bs'
@@ -99,10 +98,8 @@ const Reasignar=(data)=>{
                             body= {
                                 <Formik initialValues={initialValues} onSubmit={Reprogramar} validationSchema={tareaSchema}>
                                 <Form>
-                                <Formulario campos={[
-                                    {label:'Fecha de inicio', data:'fechainicio', type: 'date'},
-                                    {label:'Fecha limite', data:'fechafin', type: 'date'},
-                                ]}/>
+                                  <Field className='form-control' id='fechainicial' name='fechainicial' type='date'/>
+                                  <Field className='form-control' id='fechafin' name='fechafin' type='date'/>
                                 <Button style={{marginTop: '15px'}}>Reprogramar</Button>
                                 </Form>
                               </Formik>

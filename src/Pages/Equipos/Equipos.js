@@ -1,10 +1,9 @@
 import React from 'react'
 import axios from 'axios'
 import {Container, Row,Col,Button,Card} from 'react-bootstrap'
-import { Formik, Form } from 'formik'
+import { Formik, Form,Field,ErrorMessage} from 'formik'
 import * as Yup from 'yup'
 import TablaEquipos from '../../Components/Equipos/TablaEquipos'
-import Formulario from '../../Components/Formulario'
 import Menu from '../../Components/Menu/Menu'
 import './Equipos.css'
 
@@ -47,9 +46,8 @@ const teamSchema= Yup.object().shape({
               <Card.Body>
               <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={teamSchema}>
                 <Form>
-                    <Formulario campos={[
-                    {label: 'Nombre', data: 'nombre', placeholder: 'Nombre del equipo'}
-                    ]} />
+                    <Field className='form-control' id='nombre' name='nombre' type='text' placeholder= 'Nombre del equipo' />
+                    <ErrorMessage name='nombre' component='span' />
                     <Button variant='success' type='submit' style={{marginTop: '10px'}}>Añadir equipo</Button>
                 </Form>
             </Formik>

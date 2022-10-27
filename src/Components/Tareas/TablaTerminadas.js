@@ -2,7 +2,6 @@ import React from 'react'
 import { useEffect, useState} from 'react';
 import {Table,InputGroup,Form,Alert} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../../Pages/Colecciones/Colecciones.css'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {BsFillCalendarXFill}from 'react-icons/bs'

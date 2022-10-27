@@ -2,7 +2,6 @@ import {React, useState} from 'react'
 import './Menu.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {useNavigate} from 'react-router-dom'
-import Formulario from '../Formulario';
 import * as Yup from 'yup'
 import {Formik,Form,Field,ErrorMessage} from 'formik'
 import{Container,Nav,Navbar,Button,ButtonGroup,Dropdown,DropdownButton,Modal} from 'react-bootstrap'
@@ -64,10 +63,6 @@ function Menu(props) {
                                 <Formik initialValues={initialValues} onSubmit={changePassword} validationSchema={changeSchema}>
                                 <Form>
                                 <Modal.Body>
-                                   <Formulario campos={[
-                                    {label: 'Contraseña antigua', data: 'oPass', type: 'password'},
-                                    {label: 'Nueva contraseña', data: 'nPass', type: 'password'}
-                                   ]}/>
                                 </Modal.Body>
                                 <Modal.Footer>
                                     <Button type='submit'>Cambiar</Button>

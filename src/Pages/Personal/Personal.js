@@ -3,9 +3,8 @@ import TablaPersonal from '../../Components/Personal/TablaPersonal.js';
 import {Tab, Tabs,Card,Button,Container,Row,Col} from 'react-bootstrap';
 import './Personal.css'
 import axios from 'axios';
-import {Formik, Form} from 'formik'
+import {Formik, Form,Field,ErrorMessage} from 'formik'
 import * as Yup from 'yup'
-import Formulario from '../../Components/Formulario.js';
 import Menu from '../../Components/Menu/Menu'
 
 
@@ -29,7 +28,6 @@ function Personal() {
         }
       axios.post('http://localhost:3001/api/personal',person,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
       console.log(res.data);
-      window.location.reload(false)
     })}
 
 
@@ -51,7 +49,7 @@ function Personal() {
   return (
     <div className='component'>
       <Menu/>
-      <Container>
+      <Container fluid>
         <Tabs defaultActiveKey='tabla' className='mb-3'>
           <Tab eventKey='tabla' title='Tabla de personal'>
           <Row>
@@ -74,16 +72,21 @@ function Personal() {
               <Card.Title>Personal</Card.Title>
               <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={personaSchema}>
                 <Form>
-
-                <Formulario campos={[
-                    {label:'Carnet de identidad', data:'ci', type: 'text',placeholder: 'Carnet de identidad'},
-                    {label:'Nombre completo', data:'fullname', type: 'text',placeholder: 'Los apellidos son opcionales', style: {textTransform: 'capitalize'} },
-                    {label:'Email', data:'email', type: 'email',placeholder: 'Case insensitive'},
-                    {label:'Telefono', data:'telefono', type: 'text',placeholder: 'Puede ser movil o fijo'},
-                    {label:'Cargo', data:'cargo', type: 'text',placeholder: 'Plaza que ocupa'},
-                ]}/>
-
-
+                  <Card.Text>Carnet de identidad:</Card.Text>
+                  <Field className='form-control' id='ci' name='ci' placeholder='Carnet de identidad' />
+                  <ErrorMessage name='ci' component='span' />
+                  <Card.Text>Nombre completo:</Card.Text>
+                  <Field className='form-control' id='fullname' name='fullname' placeholder='Los apellidos son opcionales' />
+                  <ErrorMessage name='fullname' component='span' />
+                  <Card.Text>Correo electrónico:</Card.Text>
+                  <Field className='form-control' id='email' name='email' type='email' placeholder='Insensible a la mayuscula' />
+                  <ErrorMessage name='ci' component='span' />
+                  <Card.Text>Telefono</Card.Text>
+                  <Field className='form-control' id='telefono' name='telefono' placeholder='Formato +53xxxxxxxx' />
+                  <ErrorMessage name='telefono' component='span' />
+                  <Card.Text>Cargo</Card.Text>
+                  <Field className='form-control' id='cargo' name='cargo' />
+                  <ErrorMessage name='ci' component='span' />
                 <div style={{marginTop: '35px'}}>
                 <Button variant='success' type='submit'>Añadir</Button>
                 <Button variant='danger' type='button' style={{marginLeft:'15px'}}>Cancelar</Button>

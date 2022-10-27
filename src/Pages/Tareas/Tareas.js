@@ -3,7 +3,6 @@ import { useParams, useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import {Container, Row,Col,Card,Button, Tab, Tabs} from 'react-bootstrap'
 import { Formik, Form,Field, ErrorMessage} from 'formik'
-import Formulario from '../../Components/Formulario'
 import * as Yup from 'yup'
 import TablaTareas from '../../Components/Tareas/TablaTareas'
 import TablaTerminadas from '../../Components/Tareas/TablaTerminadas'
@@ -59,11 +58,11 @@ function Tareas() {
                     <Card.Body>
                       <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={tareaSchema}>
                         <Form>
-                          <Formulario campos={[
-                              {label:'Fecha de inicio', data:'fechainicio', type: 'date'},
-                              {label:'Fecha limite', data:'fechafin', type: 'date'},
-                          ]}/>
-                          <Card.Text>Descripcion</Card.Text>
+                          <Card.Text>Fecha de inicio</Card.Text>
+                          <Field className='form-control' id='fechainicio' name='fechaincio' type='date'/>
+                          <Card.Text>Fecha límite</Card.Text>
+                          <Field className='form-control' id='fechafin' name='fechafin' type='date'/>
+                          <Card.Text>Descripción</Card.Text>
                           <Field as='textarea' name='descripcion' className="form-control" placeholder="Descripcion"></Field>
                           <ErrorMessage name='descripcion' component='span'></ErrorMessage>
 

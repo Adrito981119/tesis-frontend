@@ -21,6 +21,7 @@ function CustomModal(props) {
       </Modal.Header>
       <Modal.Body>{props.body}</Modal.Body>
       <Modal.Footer>
+        <Button variant='secondary' onClick={()=>{handleClose()}}>Cerrar</Button>
         {props.footer}
       </Modal.Footer>
     </Modal>

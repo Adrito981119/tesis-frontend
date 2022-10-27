@@ -3,7 +3,6 @@ import { useParams, useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import {Container, Row,Col,Card,Button,Table} from 'react-bootstrap'
 import { Formik, Form, Field } from 'formik'
-import Formulario from '../../Components/Formulario'
 import * as Yup from 'yup'
 import Menu from '../../Components/Menu/Menu'
 import './Equipos.css'
@@ -117,9 +116,7 @@ function EquipoProfile() {
           <Col name="formulario">
             <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={teamSchema}>
                 <Form>
-                    <Formulario campos={[
-                    {label: 'Nombre', data: 'nombre', placeholder: 'Nombre del equipo'}
-                    ]} />
+                    <Field className='form-control' id='nombre' name='nombre'/>
                     <Button variant='success' type='submit' style={{marginTop: '10px'}}>Editar nombre</Button>
                 </Form>
             </Formik>

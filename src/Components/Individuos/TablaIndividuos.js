@@ -1,22 +1,30 @@
 import React from 'react'
 import { useEffect, useState} from 'react';
-import {Button, Table,InputGroup,Alert} from 'react-bootstrap';
+import {Button, Table,InputGroup,Alert,OverlayTrigger,Popover} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'leaflet/dist/leaflet.css';
+import markerIcon from 'leaflet/dist/images/marker-icon.png'
+import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {BsFillEmojiFrownFill} from 'react-icons/bs'
 import Form from 'react-bootstrap/Form';
+import {MapContainer, Marker, Popup, TileLayer} from 'react-leaflet'
+import CustomModal from '../CustomModal'
+import { Icon } from 'leaflet';
 
 function TablaIndividuos() {
 
     let navigator = useNavigate();
 
-    const [individuos, setIndividuos] = useState([]);
-  
+    const [individuos, setIndividuos] = useState([]); 
     useEffect(() => {
     axios.get('http://localhost:3001/api/individuos',{headers:{'token': localStorage.getItem('token')}}).then((res)=>{  
           setIndividuos(res.data)
+          console.log(res.data)
       },)
+
+    
   }, []);
 
 
@@ -33,7 +41,7 @@ function TablaIndividuos() {
     <InputGroup>
       <Form.Control placeholder='ID'></Form.Control>
       <Form.Control placeholder='Nombre Vulgar'></Form.Control>
-      <Form.Control placeholder='Nombre cientifico'></Form.Control>
+      <Form.Control placeholder='Nombre científico'></Form.Control>
       <Form.Control placeholder='Nombre familia'></Form.Control>
     </InputGroup>
     </div>
@@ -41,14 +49,13 @@ function TablaIndividuos() {
       <Table striped hover style={{textAlign: 'center'}}>
         <thead>
           <tr>
-            <th>ID</th>
-            <th>Coleccion</th>
+            <th>Id</th>
             <th>Nombre Vulgar</th>
             <th>Nombre Cientifico</th>
             <th>Nombre de la familia</th>
-            <th>Posicion</th>
             <th>Altura</th>
-            <th>Diametro</th>
+            <th>Diámetro</th>
+            <th>Posicion</th>
             <th>Ver Ficha</th>
           </tr>
         </thead>
@@ -57,14 +64,55 @@ function TablaIndividuos() {
             return (
             <tr key={value.id}>
             <td>{value.id}</td>
-            <td style={{cursor: 'pointer', fontWeight:'bold'}} onClick={()=>{navigator('/colecciones/'+value.coleccionID)}}>{value.coleccionID}</td>
             <td>{value.nombreVulgar}</td>
             <td>{value.nombreCientifico}</td>
             <td>{value.nombreFamilia}</td>
-            <td>{value.posicion}</td>
             <td>{value.altura}</td>
-            <td>{value.diametro}</td>
-            <td><Button variant='primary' onClick={()=>{navigator('/individuos/'+value.id)}}>Ver</Button></td>
+            <td>{value.diámetro}</td>
+            <td>
+              {
+                value.latitud == null & value.longitud ==null ? 
+                <OverlayTrigger 
+                trigger={['focus','hover']}
+                placement='auto' 
+                overlay={
+
+                  <Popover>
+                  <Popover.Header>
+                    ¿Por qué sucede esto?
+                  </Popover.Header>
+                  <Popover.Body>
+                    <p>
+                      El individuo no tiene una posicion registrada, puede añadirse una en el menu de Ver Ficha
+                    </p>
+                  </Popover.Body>
+                </Popover>
+
+                }           
+                >
+                  <Button variant='secondary'>Ver en el mapa</Button>
+                </OverlayTrigger> 
+                :
+              <CustomModal 
+              name='Ver mapa'
+              title= {value.nombreCientifico}
+              body={
+                      <MapContainer center={[value.latitud, value.longitud]}  zoom={18} style={{height:'350px', width:'100%'}}>
+                        <TileLayer
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                        />
+                        <Marker position={[value.latitud,value.longitud]} icon={new Icon({iconUrl: markerIcon, iconSize: [25,41]})}>
+                            <Popup>
+                                {value.nombreCientifico}
+                            </Popup>
+                        </Marker>
+                      </MapContainer>
+              }
+              />
+              }
+            </td>
+            <td><Button variant='primary' onClick={()=>{navigator(`/individuos/${value.id}`)}}>Ver</Button></td>
             </tr>
             )
           })} 

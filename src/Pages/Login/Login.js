@@ -32,10 +32,10 @@ function Login() {
 
 const onSubmit=(data)=>{axios.post('http://localhost:3001/auth/login',data).then((res)=>{
   if(res.data.error){
-    alert(res.data)
+    alert(res.data.error)
   }else{
     localStorage.setItem('token',res.data)
-    navigator('/mapa')
+    navigator('/home')
   }
 
 })}

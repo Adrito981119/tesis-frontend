@@ -46,7 +46,6 @@ function TablaUsuarios() {
             </thead>
             <tbody>
             {users.map((value)=>{
-                
                 return (
                 <tr key={value.owner}>
                     <td>{value.owner}</td>

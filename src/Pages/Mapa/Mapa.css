@@ -1,7 +1,6 @@
 .mapa{
     height: 100%;
     width: 100%;
-
 }
 .map.wrapper{
 align-items: center;
@@ -13,4 +12,7 @@ justify-content: center;
     height: 100vh;
     text-align: center;
     justify-content: center;
+}
+.sr-only{
+    display: none;
 }

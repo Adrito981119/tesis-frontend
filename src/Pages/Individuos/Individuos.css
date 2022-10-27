@@ -1,7 +1,13 @@
-.component{
+.individuos-bg{
     background-color: #282c34;
-    background-size: cover;
-    height: 100vh;  
-    align-items: center;  
+    background-size: center;
     justify-content: center;
+}
+.botones{
+    align-items: unset;
+    justify-content: left;
+    margin-top: 15px;
+}
+.individuo-locator-map{
+    
 }

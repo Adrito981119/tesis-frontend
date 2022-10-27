@@ -1,8 +1,7 @@
 import {React, useEffect, useState} from 'react'
 import axios from 'axios'
 import {Container, Row,Col,Card,Button,Alert} from 'react-bootstrap'
-import { Formik, Form,Field} from 'formik'
-import Formulario from '../../Components/Formulario'
+import { Formik, Form,Field, ErrorMessage} from 'formik'
 import * as Yup from 'yup'
 import TablaUsuarios from '../../Components/Usuarios/TablaUsuarios'
 import Menu from '../../Components/Menu/Menu'
@@ -86,10 +85,12 @@ function Usuarios() {
                                 })
                             }
                         </Field>
-                        <Formulario campos={[
-                            {label:'Usuario', data:'username', type: 'text',placeholder: 'Puede contener letras y números'},
-                            {label:'Contraseña', data:'password', type: 'password',}
-                        ]}/>
+                        <Card.Text>Nombre de usuario</Card.Text>
+                        <Field className='form-control' id='username' name='username' placeholder='Puede contener letras y números'/>
+                        <ErrorMessage name='username' component='span'/>
+                        <Card.Text>Contraseña</Card.Text>
+                        <Field className='form-control' id='password' name='password' type='password'/>
+                        <ErrorMessage name='password' component='span'/>
                     <Card.Footer>
                         <Button type='submit'>Crear usuario</Button>
                     </Card.Footer>

@@ -2,9 +2,8 @@ import {React} from 'react'
 import TablaColeccion from '../../Components/Colecciones/TablaColeccion.js'
 import {Tab, Tabs, Button,Card, Container,Row,Col} from 'react-bootstrap';
 import axios from 'axios';
-import {Formik, Form} from 'formik'
+import {Formik, Form, Field, ErrorMessage} from 'formik'
 import * as Yup from 'yup'
-import Formulario from '../../Components/Formulario.js';
 import Menu from '../../Components/Menu/Menu'
 
 function Colecciones() {
@@ -16,7 +15,7 @@ function Colecciones() {
       nombreCientifico:'',
       nombreFamilia:'',
       posicion:'',
-      cant:''
+      cant: '',
   }
 
   const onSubmit=(data)=>{
@@ -33,7 +32,7 @@ function Colecciones() {
     nombreCientifico:Yup.string().required('Este campo es obligatorio'),
     nombreFamilia:Yup.string().required('Este campo es obligatorio'),
     posicion:Yup.string(),
-    cant:Yup.number('El valor debe ser un numero').positive('La cantidad no puede ser un numero menor que 0').required('Este campo es obligatorio'),
+    cant: Yup.number().positive()
   })
 
 
@@ -58,31 +57,57 @@ function Colecciones() {
       </Tab>
 
       <Tab eventKey='formulario' title='Crear coleccion'>
+    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={coleccionSchema}>
+      <Form>
+        <Row>
+            <Col>
+                  <Card bg='light'>
+                  <Card.Body>
+                    <Card.Header>Id y nombres</Card.Header>
+                          <Card.Text>Id:</Card.Text>
+                          <Field className='form-control' id='id' name='id' type='text'/>
+                          <ErrorMessage name='id' component='span'/>
+                          <Card.Text>Nombre vulgar:</Card.Text>
+                          <Field className='form-control' id='nombreVulgar' name='nombreVulgar' type='text'/>
+                          <ErrorMessage name='nombreVulgar' component='span'/>
+                          <Card.Text>Nombre Científico:</Card.Text>
+                          <Field className='form-control' id='nombreCientifico' name='nombreCientifico' type='text'/>
+                          <ErrorMessage name='nombreCientifico' component='span'/>
+                          <Card.Text>Familia de individuos:</Card.Text>
+                          <Field className='form-control' id='nombreFamilia' name='nombreFamilia' type='text'/>
+                          <ErrorMessage name='nombreFamilia' component='span'/>
+                  </Card.Body>
+                </Card>
+            </Col>
 
-      <Card style={{ width: '75%', margin: 'auto', marginTop: '50px' }} bg='light'>
-        <Card.Body>
-          <Card.Title>Nueva coleccion</Card.Title>
-          <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={coleccionSchema}>
-            <Form>
+            <Col>
+            <Card bg='light'>
+                  <Card.Body>
+                    <Card.Header>Posicion</Card.Header>
+                          <Card.Text>Posicion:</Card.Text>
+                          <Field className='form-control' id='posicion' name='posicion' type='text'/>
+                          <ErrorMessage name='posicion' component='span'/>
+                          <Card.Text>Cantidad de elementos:</Card.Text>
+                          <Field className='form-control' id='cant' name='cant' type='text'/>
+                          <ErrorMessage name='cant' component='span'/>
+                  </Card.Body>
+                </Card>
 
-            <Formulario campos={[
-              {label: 'ID', data: 'id', type: 'text'},
-              {label: 'Nombre Vulgar', data: 'nombreVulgar', type: 'text'},
-              {label: 'Nombre Cientifico', data: 'nombreCientifico', type: 'text'},
-              {label: 'Nombre Familia', data: 'nombreFamilia', type: 'text'},
-              {label: 'Posicion', data: 'posicion', type: 'text'},
-              {label: 'Cantidad de individuos', data: 'cant', type: 'text'}
-            ]}/>
+                <Row style={{marginTop: '5px', alignContent: 'center'}}>
+                <Col>
+                <Card bg='light'  style={{width: '50%'}}>
+                    <Card.Body>
+                      <Button variant='success' type='submit'>Crear Coleccion</Button>
+                      <Button variant='danger' type='button' style={{marginLeft:'15px'}}>Cancelar</Button>
+                    </Card.Body>
+                </Card>
+                </Col>
+              </Row>
 
-
-            <div style={{marginTop: '35px'}}>
-            <Button variant='success' type='submit'>Crear Coleccion</Button>
-            <Button variant='danger' type='button' style={{marginLeft:'15px'}}>Cancelar</Button>
-            </div>
-            </Form>
-          </Formik>
-        </Card.Body>
-      </Card>
+            </Col>
+      </Row>
+      </Form>
+    </Formik>
     </Tab>
     </Tabs>
     </Container>
