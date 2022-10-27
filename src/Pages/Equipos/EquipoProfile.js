@@ -9,21 +9,15 @@ import './Equipos.css'
 
 function EquipoProfile() { 
 
-    const navigator = useNavigate()
+    const navigate = useNavigate()
     const {id} = useParams();
     const [team,setTeam]   = useState({});
     const [members, setMembers] = useState([]);
     const [personList, setPersonList] = useState([]);
 
     useEffect(()=>{
-      axios.get(`http://localhost:3001/api/equipos/${id}`,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
-          setTeam(res.data)
-    });
-
-      axios.get(`http://localhost:3001/api/equipos/miembros/${id}`,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
-       setMembers(res.data)
-    });
-
+      loadTeam()
+      loadMembers()
     axios.get('http://localhost:3001/api/personal',{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
       setPersonList(res.data)
     });
@@ -42,14 +36,14 @@ function EquipoProfile() {
 
    const onSubmit=(data)=>{
         axios.put(`http://localhost:3001/api/equipos/${id}`,data,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
-        window.location.reload(false)
+        loadTeam()
       })}
 
     const addMember=(data)=>{
       const d = {ci: data.PersonalCi}
       axios.post(`http://localhost:3001/api/equipos/miembros/${id}`,d,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
         alert(res.data)
-        window.location.reload(false)
+        loadMembers()
       }) 
     }
       
@@ -61,12 +55,20 @@ function EquipoProfile() {
         PersonalCi: Yup.string().min(11).max(11).required()
       })
 
-
-
+      const loadMembers=()=>{
+        axios.get(`http://localhost:3001/api/equipos/miembros/${id}`,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
+          setMembers(res.data)
+       });
+      }
+      const loadTeam=()=>{
+        axios.get(`http://localhost:3001/api/equipos/${id}`,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
+          setTeam(res.data)
+    });
+      }
     const deleteMember=(ci)=>{
       axios.delete(`http://localhost:3001/api/equipos/miembros/${id}${ci}`,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
         alert(res.data)
-        window.location.reload(false)
+        loadMembers()
       })
     }
 
@@ -79,7 +81,7 @@ function EquipoProfile() {
 
           <Col name='data-card'>
             <Card>
-                <Card.Title>{team.nombre}</Card.Title>
+                <Card.Header>{team.nombre}</Card.Header>
                 <Card>
                  <Card.Body>
                     <Table title='Miembros' responsive='sm' striped hover style={{textAlign: 'center'}} variant='dark'>
@@ -97,9 +99,9 @@ function EquipoProfile() {
                             return (
                             <tr key={value.ci}>
                                 <td>{value.ci}</td>
-                                <td>{value.nombre} {value.pApellido} {value.sApellido}</td>
+                                <td>{value.fullname}</td>
                                 <td>{value.cargo}</td>
-                            <td><Button variant='primary' onClick={()=>{navigator('/personal/'+value.ci)}}>Ver</Button></td>
+                            <td><Button variant='primary' onClick={()=>{navigate('/personal/'+value.ci)}}>Ver</Button></td>
                             <td><Button variant='danger' onClick={()=>{deleteMember(value.ci)}}>Eliminar</Button></td>
                             </tr>
                             )
@@ -114,31 +116,47 @@ function EquipoProfile() {
 
 
           <Col name="formulario">
-            <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={teamSchema}>
-                <Form>
-                    <Field className='form-control' id='nombre' name='nombre'/>
-                    <Button variant='success' type='submit' style={{marginTop: '10px'}}>Editar nombre</Button>
-                </Form>
-            </Formik>
+    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={teamSchema}>
+      <Form>
+            <Card>
+              <Card.Header><strong>Editar nombre del equipo</strong></Card.Header>
+
+            <Card.Body>
+                    <Field className='form-control' id='nombre' name='nombre' autoComplete='off'/>
+            </Card.Body>
+            <Card.Footer>
+              <Button variant='success' type='submit'>Editar nombre</Button>
+            </Card.Footer>
+          </Card>
+       </Form>
+    </Formik>
+
             
 
 
           <Col name="añadir" className='addMember'>
             <Formik initialValues={membersInitial} onSubmit={addMember} validationSchema={memberSchema}>
                 <Form>
-                    <Field as='select' className='form-select' name='PersonalCi' id='PersonalCi'>
-                        <option defaultValue='null'>Seleccione a la persona</option>
-                        {
-                          personList.map((value)=>{
-                            return(
-                              <option key={value.ci} value={value.ci}>
-                               {value.nombre} {value.pApellido} {value.sApellido}
-                              </option>
-                            )
-                          })
-                        }
-                    </Field>
+                  <Card>
+                    <Card.Header><strong>Añadir miembro</strong></Card.Header>
+                    <Card.Body>
+                        <Field as='select' className='form-select' name='PersonalCi' id='PersonalCi'>
+                            <option defaultValue='null'>Seleccione a la persona</option>
+                            {
+                              personList.map((value)=>{
+                                return(
+                                  <option key={value.ci} value={value.ci}>
+                                  {value.fullname}
+                                  </option>
+                                )
+                              })
+                            }
+                        </Field>
+                    </Card.Body>
+                    <Card.Footer>
                     <Button variant='primary' type='submit' style={{marginTop: '15px'}}>Añadir miembro</Button>
+                    </Card.Footer>
+                  </Card>
                 </Form>
             </Formik>
           </Col>

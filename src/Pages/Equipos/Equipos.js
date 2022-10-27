@@ -46,7 +46,7 @@ const teamSchema= Yup.object().shape({
               <Card.Body>
               <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={teamSchema}>
                 <Form>
-                    <Field className='form-control' id='nombre' name='nombre' type='text' placeholder= 'Nombre del equipo' />
+                    <Field className='form-control' id='nombre' name='nombre' type='text' placeholder= 'Nombre del equipo' autoComplete='off' />
                     <ErrorMessage name='nombre' component='span' />
                     <Button variant='success' type='submit' style={{marginTop: '10px'}}>Añadir equipo</Button>
                 </Form>

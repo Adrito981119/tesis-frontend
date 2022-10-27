@@ -15,10 +15,14 @@ function Usuarios() {
     }
 
     useEffect(()=>{
+        loadPerson()
+    },[])
+
+    const loadPerson=()=>{
         axios.get('http://localhost:3001/api/personal',{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
             setPeople(res.data)
         });
-    },[])
+    }
 
     const initialValues={
         username: '',
@@ -33,7 +37,7 @@ function Usuarios() {
                 axios.put(`http://localhost:3001/api/personal/${data.owner}`,usuario)
                 .then((res)=>{
                     console.log(res.data)
-                    window.location.reload(false)
+                    loadPerson()
                 })
             })
 

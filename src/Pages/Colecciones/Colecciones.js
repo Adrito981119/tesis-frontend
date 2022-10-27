@@ -1,4 +1,4 @@
-import {React} from 'react'
+import {React,useRef} from 'react'
 import TablaColeccion from '../../Components/Colecciones/TablaColeccion.js'
 import {Tab, Tabs, Button,Card, Container,Row,Col} from 'react-bootstrap';
 import axios from 'axios';
@@ -8,7 +8,6 @@ import Menu from '../../Components/Menu/Menu'
 
 function Colecciones() {
 
-  
   const initialValues={
       id:'',
       nombreVulgar:'',
@@ -20,8 +19,7 @@ function Colecciones() {
 
   const onSubmit=(data)=>{
     axios.post('http://localhost:3001/api/coleccion',data,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
-    console.log(res.status)
-    window.location.reload(false)
+      window.location.reload(false)
   })
 
 }
@@ -47,7 +45,7 @@ function Colecciones() {
           <Card>
             <Card.Header>Tabla de colecciones</Card.Header>
             <Card.Body>
-              <TablaColeccion />
+              <TablaColeccion/>
             </Card.Body>
           </Card>
 
@@ -65,16 +63,16 @@ function Colecciones() {
                   <Card.Body>
                     <Card.Header>Id y nombres</Card.Header>
                           <Card.Text>Id:</Card.Text>
-                          <Field className='form-control' id='id' name='id' type='text'/>
+                          <Field className='form-control' id='id' name='id' type='text' autoComplete='off'/>
                           <ErrorMessage name='id' component='span'/>
                           <Card.Text>Nombre vulgar:</Card.Text>
-                          <Field className='form-control' id='nombreVulgar' name='nombreVulgar' type='text'/>
+                          <Field className='form-control' id='nombreVulgar' name='nombreVulgar' type='text' autoComplete='off'/>
                           <ErrorMessage name='nombreVulgar' component='span'/>
                           <Card.Text>Nombre Científico:</Card.Text>
-                          <Field className='form-control' id='nombreCientifico' name='nombreCientifico' type='text'/>
+                          <Field className='form-control' id='nombreCientifico' name='nombreCientifico' type='text' autoComplete='off'/>
                           <ErrorMessage name='nombreCientifico' component='span'/>
                           <Card.Text>Familia de individuos:</Card.Text>
-                          <Field className='form-control' id='nombreFamilia' name='nombreFamilia' type='text'/>
+                          <Field className='form-control' id='nombreFamilia' name='nombreFamilia' type='text' autoComplete='off'/>
                           <ErrorMessage name='nombreFamilia' component='span'/>
                   </Card.Body>
                 </Card>
@@ -85,10 +83,10 @@ function Colecciones() {
                   <Card.Body>
                     <Card.Header>Posicion</Card.Header>
                           <Card.Text>Posicion:</Card.Text>
-                          <Field className='form-control' id='posicion' name='posicion' type='text'/>
+                          <Field className='form-control' id='posicion' name='posicion' type='text' autoComplete='off' />
                           <ErrorMessage name='posicion' component='span'/>
                           <Card.Text>Cantidad de elementos:</Card.Text>
-                          <Field className='form-control' id='cant' name='cant' type='text'/>
+                          <Field className='form-control' id='cant' name='cant' type='text' autoComplete='off' />
                           <ErrorMessage name='cant' component='span'/>
                   </Card.Body>
                 </Card>

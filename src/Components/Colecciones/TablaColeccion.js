@@ -1,4 +1,4 @@
-import React from 'react'
+import {React} from 'react'
 import { useEffect, useState} from 'react';
 import {Button,Table,Alert,InputGroup} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,18 +8,23 @@ import Form from 'react-bootstrap/Form';
 import {BsFillEmojiFrownFill} from 'react-icons/bs'
 
 function TablaColeccion() {
-  let navigator = useNavigate();
+  const navigate = useNavigate();
 
   const [colecciones, setColecciones] = useState([]);
 
   useEffect(() => {
+    Load()
+}, []);
+
+const Load= ()=>{
   axios.get('http://localhost:3001/api/coleccion',{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
     if(res.data.error){
         alert(res.data.err)
       }else{    
         setColecciones(res.data)}
     },)
-}, []);
+}
+
 
   return (
     <div>
@@ -59,7 +64,7 @@ function TablaColeccion() {
               <td>{value.nombreCientifico}</td>
               <td>{value.nombreFamilia}</td>
               <td><Button>Ver en el mapa</Button></td>
-              <td><Button variant='primary' onClick={()=>{navigator(`/colecciones/${value.id}`)}}>Ver</Button></td>
+              <td><Button variant='primary' onClick={()=>{navigate(`/colecciones/${value.id}`)}}>Ver</Button></td>
               </tr>
               )
             })} 

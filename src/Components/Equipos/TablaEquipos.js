@@ -8,7 +8,7 @@ import Form from 'react-bootstrap/Form';
 import {BsFillEmojiFrownFill} from 'react-icons/bs'
 
 function TablaEquipos() {
-    let navigator = useNavigate();
+    let navigate = useNavigate();
   
     const [teams, setTeams] = useState([]);
   
@@ -53,7 +53,7 @@ function TablaEquipos() {
                     <td>{value.id}</td>
                     <td>{value.nombre}</td>
                     <td>0</td>
-                <td><Button variant='primary' onClick={()=>{navigator('/equipos/'+value.id)}}>Ver</Button></td>
+                <td><Button variant='primary' onClick={()=>{navigate('/equipos/'+value.id)}}>Ver</Button></td>
                 </tr>
                 )
               })} 

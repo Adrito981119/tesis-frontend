@@ -8,7 +8,6 @@ import { MapContainer,TileLayer,FeatureGroup } from 'react-leaflet';
 import { EditControl } from 'react-leaflet-draw';
 import {Formik, Form,Field,ErrorMessage} from 'formik'
 import * as Yup from 'yup'
-import SelectComponent from '../../Components/SelectComponent.js';
 import TablaIndividuos from '../../Components/Individuos/TablaIndividuos.js';
 import { useNavigate } from 'react-router-dom';
 import Menu from '../../Components/Menu/Menu'
@@ -58,7 +57,7 @@ function Individuos(props) {
     console.log(data)
   }
   
-    const coleccionSchema= Yup.object().shape({
+    const individuoSchema= Yup.object().shape({
         id: Yup.string().required('Este campo es obligatorio'),
         nombreVulgar:Yup.string().required('Este campo es obligatorio'),
         nombreCientifico:Yup.string().required('Este campo es obligatorio'),
@@ -98,7 +97,7 @@ function Individuos(props) {
         </Tab>
       
       <Tab eventKey='formulario' title='Crear individuo'>
-      <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={coleccionSchema} innerRef={formikRef}>
+      <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={individuoSchema} innerRef={formikRef}>
       <Form>
         <Row>
           <Col>
@@ -106,16 +105,16 @@ function Individuos(props) {
                   <Card.Header>Nombre</Card.Header>
                   <Card.Body>
                     <Card.Text>Id:</Card.Text>
-                    <Field className='form-control' id='id' name='id' />
+                    <Field className='form-control' id='id' name='id' autocomplete='off'/>
                     <ErrorMessage name='id' component='span'/>
                     <Card.Text>Nombre vulgar:</Card.Text>
-                    <Field className='form-control' id='nombreVulgar' name='nombreVulgar' />
+                    <Field className='form-control' id='nombreVulgar' name='nombreVulgar' autocomplete='off'/>
                     <ErrorMessage name='ombreVulgar' component='span'/>
                     <Card.Text>Nombre científico:</Card.Text>
-                    <Field className='form-control' id='nombreCientifico' name='nombreCientifico' />
+                    <Field className='form-control' id='nombreCientifico' name='nombreCientifico' autocomplete='off'/>
                     <ErrorMessage name='nombreCientifico' component='span'/>
                     <Card.Text>Familia de individuos:</Card.Text>
-                    <Field className='form-control' id='nombreFamilia' name='nombreFamilia' />
+                    <Field className='form-control' id='nombreFamilia' name='nombreFamilia' autocomplete='off'/>
                     <ErrorMessage name='nombreFamilia' component='span'/>
                   </Card.Body>
               </Card>
@@ -134,9 +133,9 @@ function Individuos(props) {
                         <Row>
                           <Col>
                           <Card.Text>Latitud</Card.Text>
-                          <Field className='form-control' type='text' id='latitud' name='latitud'></Field>
+                          <Field className='form-control' type='text' id='latitud' name='latitud'autocomplete='off'/>
                           <Card.Text>Longitud</Card.Text>
-                          <Field className='form-control' type='text' id='longitud' name='longitud'></Field>             
+                          <Field className='form-control' type='text' id='longitud' name='longitud'autocomplete='off'/>           
                           </Col>
                           
                           <Col style={{marginTop: '65px'}}>

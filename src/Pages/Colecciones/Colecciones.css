@@ -4,3 +4,15 @@
     text-align: center;
     justify-content: center;
 }
+.editCardHeader{
+    display: flex;
+}
+.editButton{
+    margin-left: auto;
+}
+.editControl{
+    display: inline-flex
+}
+.editInput{
+    margin-left: 5px;
+}

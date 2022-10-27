@@ -13,7 +13,7 @@ import {BsFillEmojiFrownFill} from 'react-icons/bs'
 
 
 function MembersTable() {
-    let navigator = useNavigate();
+    let navigate = useNavigate();
     const [members, setMembers] = useState([]);
   
     useEffect(() => {
@@ -57,7 +57,7 @@ function MembersTable() {
                     <td>{value.id}</td>
                     <td>{value.nombre}</td>
                     <td>0</td>
-                <td><Button variant='primary' onClick={()=>{navigator('/equipos/'+value.id)}}>Ver</Button></td>
+                <td><Button variant='primary' onClick={()=>{navigate('/equipos/'+value.id)}}>Ver</Button></td>
                 </tr>
                 )
               })} 
