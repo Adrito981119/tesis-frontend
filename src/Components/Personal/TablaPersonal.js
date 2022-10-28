@@ -1,24 +1,30 @@
-import React from 'react'
-import { useEffect, useState} from 'react';
+import { React,useEffect, useState,forwardRef,useImperativeHandle} from 'react';
 import {Button,Table,Form, InputGroup,Alert} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {BsFillEmojiFrownFill} from 'react-icons/bs'
 
-
-function TablaPersonal() {
-
-    let navigator = useNavigate();
+const TablaPersonal = forwardRef(
+  (props,ref)=>{
+    const navigator = useNavigate();
 
     const [personal, setPersonal] = useState([]);
   
     useEffect(() => {
-    axios.get('http://localhost:3001/api/personal',{headers:{'token': localStorage.getItem('token')}}).then((res)=>{ 
-          setPersonal(res.data)
-      },)
+      Load()
   }, []);
 
+  const Load=()=>{
+    axios.get('http://localhost:3001/api/personal',{headers:{'token': localStorage.getItem('token')}}).then((res)=>{ 
+      setPersonal(res.data)
+  },)
+  }
+  useImperativeHandle(ref,()=>({
+    Load
+  }))
+
+  
   return (
     <div>
       {
@@ -69,6 +75,7 @@ function TablaPersonal() {
     
   </div>
   )
-}
+  }
+)
 
 export default TablaPersonal

@@ -17,11 +17,15 @@ function IndividuosProfile() {
   const [individuo,setIndividuo]   = useState({});
   const [edit,setEditMode] = useState(false)
   useEffect(()=>{
-          axios.get(`http://localhost:3001/api/individuos/${id}`,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
-              setIndividuo(res.data)
-          });
+      LoadInd()
       // eslint-disable-next-line react-hooks/exhaustive-deps
       },[individuo.id])
+
+      const LoadInd=()=>{
+        axios.get(`http://localhost:3001/api/individuos/${id}`,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
+          setIndividuo(res.data)
+      });
+      }
 
       const onDelete=()=>{
         axios.delete(`http://localhost:3001/api/individuos/${id}`,{headers:{'token':localStorage.getItem('token')}}).then((res)=>{
@@ -39,7 +43,7 @@ function IndividuosProfile() {
       const onSubmit=(data)=>{
         axios.put(`http://localhost:3001/api/individuos/${id}`,data,{headers:{'token':localStorage.getItem('token')}}).then((res)=>{
           setEditMode(false)
-          console.log(res.data)
+          LoadInd()
         })
       }
     
@@ -103,19 +107,19 @@ function IndividuosProfile() {
                       <Form>
                       <Card.Body>
                         <Card.Text className='form-label'>Nombre Vulgar:</Card.Text>
-                        <Field id='nombreVulgar' name='nombreVulgar' className='form-control' defaultValue={individuo.nombreVulgar} autocomplete='off' />
+                        <Field id='nombreVulgar' name='nombreVulgar' className='form-control' defaultValue={individuo.nombreVulgar} autoComplete='off' />
                         <ErrorMessage name='nombreVulgar'/>
                         <Card.Text className='form-label' >Nombre Científico:</Card.Text>
-                        <Field id='nombreCientifico' name='nombreCientifico' className='form-control' defaultValue={individuo.nombreCientifico} autocomplete='off'/>
+                        <Field id='nombreCientifico' name='nombreCientifico' className='form-control' defaultValue={individuo.nombreCientifico} autoComplete='off'/>
                         <ErrorMessage name='nombreCientifico'/>
                         <Card.Text className='form-label'>Familia:</Card.Text>
-                        <Field id='nombreFamilia' name='nombreFamilia' className='form-control' defaultValue={individuo.nombreFamilia} autocomplete='off'/>
+                        <Field id='nombreFamilia' name='nombreFamilia' className='form-control' defaultValue={individuo.nombreFamilia} autoComplete='off'/>
                         <ErrorMessage name='nombreFamilia'/>
                         <Card.Text className='form-label'>Diámetro:</Card.Text>
-                        <Field id='posicion' name='diametro' className='form-control' defaultValue={individuo.diametro} autocomplete='off'/>
+                        <Field id='posicion' name='diametro' className='form-control' defaultValue={individuo.diametro} autoComplete='off'/>
                         <ErrorMessage name='diametro'/>
                         <Card.Text className='form-label'>Altura:</Card.Text>
-                        <Field id='posicion' name='altura' className='form-control' defaultValue={individuo.altura} autocomplete='off'/>
+                        <Field id='posicion' name='altura' className='form-control' defaultValue={individuo.altura} autoComplete='off'/>
                         <ErrorMessage name='altura'/>
                       </Card.Body>
                       <Card.Footer>

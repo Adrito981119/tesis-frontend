@@ -35,7 +35,7 @@ const onSubmit=(data)=>{axios.post('http://localhost:3001/auth/login',data).then
     alert(res.data.error)
   }else{
     localStorage.setItem('token',res.data)
-    navigator('/home')
+    navigator('/mapa')
   }
 
 })}

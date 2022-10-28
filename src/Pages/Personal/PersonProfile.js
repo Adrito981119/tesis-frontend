@@ -24,7 +24,6 @@ function PersonProfile() {
         const Load = ()=>{
           axios.get(`http://localhost:3001/api/personal/${ci}`,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
             setPerson(res.data)
-            console.log(person)
         });
         }
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import {React, useRef} from 'react'
 import axios from 'axios'
 import {Container, Row,Col,Button,Card} from 'react-bootstrap'
 import { Formik, Form,Field,ErrorMessage} from 'formik'
@@ -8,15 +8,16 @@ import Menu from '../../Components/Menu/Menu'
 import './Equipos.css'
 
 function Equipos() {
-
+  const teamRef = useRef()
   const initialValues={
     nombre:'',
 }
 
-const onSubmit=(data)=>{
+const onSubmit=(data,{resetForm})=>{
   axios.post('http://localhost:3001/api/equipos',data,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
   console.log(res.status)
-  window.location.reload(false)
+  teamRef.current.Load()
+  resetForm()
 })
 
 }
@@ -34,7 +35,7 @@ const teamSchema= Yup.object().shape({
             <Card>
               <Card.Header>Equipos de trabajo</Card.Header>
               <Card.Body>
-              <TablaEquipos />
+              <TablaEquipos ref={teamRef}/>
               </Card.Body>
             </Card>
             

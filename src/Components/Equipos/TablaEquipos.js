@@ -1,4 +1,4 @@
-import React from 'react'
+import {React,  forwardRef,useImperativeHandle } from 'react'
 import { useEffect, useState} from 'react';
 import {Button, Table,InputGroup,Alert} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -7,18 +7,27 @@ import { useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import {BsFillEmojiFrownFill} from 'react-icons/bs'
 
-function TablaEquipos() {
-    let navigate = useNavigate();
+const TablaEquipos=forwardRef(
+  (props,ref)=>{
+    const navigate = useNavigate();
   
     const [teams, setTeams] = useState([]);
-  
+
+    const Load=()=>{
+      axios.get('http://localhost:3001/api/equipos',{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
+        if(res.data.error){
+            alert(res.data.err)
+          }else{    
+            setTeams(res.data)}
+        },)
+    }
+
+    useImperativeHandle(ref,()=>({
+      Load
+    }))
+
     useEffect(() => {
-    axios.get('http://localhost:3001/api/equipos',{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
-      if(res.data.error){
-          alert(res.data.err)
-        }else{    
-          setTeams(res.data)}
-      },)
+        Load()
   }, []);
   
     return (
@@ -65,5 +74,6 @@ function TablaEquipos() {
       </div>
     )
   }
+)
 
 export default TablaEquipos

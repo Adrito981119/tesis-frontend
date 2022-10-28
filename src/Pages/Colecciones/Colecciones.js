@@ -8,6 +8,8 @@ import Menu from '../../Components/Menu/Menu'
 
 function Colecciones() {
 
+  const tablaRef = useRef()
+
   const initialValues={
       id:'',
       nombreVulgar:'',
@@ -17,9 +19,10 @@ function Colecciones() {
       cant: '',
   }
 
-  const onSubmit=(data)=>{
+  const onSubmit=(data,{resetForm})=>{
     axios.post('http://localhost:3001/api/coleccion',data,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
-      window.location.reload(false)
+      tablaRef.current.Load()
+      resetForm()
   })
 
 }
@@ -45,7 +48,7 @@ function Colecciones() {
           <Card>
             <Card.Header>Tabla de colecciones</Card.Header>
             <Card.Body>
-              <TablaColeccion/>
+              <TablaColeccion ref={tablaRef}/>
             </Card.Body>
           </Card>
 
@@ -55,7 +58,7 @@ function Colecciones() {
       </Tab>
 
       <Tab eventKey='formulario' title='Crear coleccion'>
-    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={coleccionSchema}>
+    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={coleccionSchema} >
       <Form>
         <Row>
             <Col>

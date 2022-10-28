@@ -1,5 +1,4 @@
-import React from 'react'
-import { useEffect, useState} from 'react';
+import { React,useEffect, useState,forwardRef,useImperativeHandle} from 'react';
 import {Button, Table,InputGroup,Alert,OverlayTrigger,Popover} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'leaflet/dist/leaflet.css';
@@ -13,19 +12,26 @@ import {MapContainer, Marker, Popup, TileLayer} from 'react-leaflet'
 import CustomModal from '../CustomModal'
 import { Icon } from 'leaflet';
 
-function TablaIndividuos() {
+const TablaIndividuos=forwardRef(
+(props,ref)=>{
 
-    let navigator = useNavigate();
+    const navigate = useNavigate();
 
     const [individuos, setIndividuos] = useState([]); 
     useEffect(() => {
-    axios.get('http://localhost:3001/api/individuos',{headers:{'token': localStorage.getItem('token')}}).then((res)=>{  
-          setIndividuos(res.data)
-          console.log(res.data)
-      },)
-
-    
+      Load()
   }, []);
+
+  const Load=()=>{
+    axios.get('http://localhost:3001/api/individuos',{headers:{'token': localStorage.getItem('token')}}).then((res)=>{  
+      setIndividuos(res.data)
+  },)
+  }
+
+  
+  useImperativeHandle(ref,()=>({
+    Load
+  }))
 
 
   return (
@@ -68,7 +74,7 @@ function TablaIndividuos() {
             <td>{value.nombreCientifico}</td>
             <td>{value.nombreFamilia}</td>
             <td>{value.altura}</td>
-            <td>{value.diámetro}</td>
+            <td>{value.diametro}</td>
             <td>
               {
                 value.latitud == null & value.longitud ==null ? 
@@ -112,7 +118,7 @@ function TablaIndividuos() {
               />
               }
             </td>
-            <td><Button variant='primary' onClick={()=>{navigator(`/individuos/${value.id}`)}}>Ver</Button></td>
+            <td><Button variant='primary' onClick={()=>{navigate(`/individuos/${value.id}`)}}>Ver</Button></td>
             </tr>
             )
           })} 
@@ -123,6 +129,6 @@ function TablaIndividuos() {
     }
   </div>
   )
-}
+  })
 
 export default TablaIndividuos

@@ -20,18 +20,11 @@ function Individuos(props) {
     const prevLatValue = useRef()
     const prevLngValue = useRef()
     const formikRef = useRef()
+    const individuoRef= useRef()
     const [list, setList] = useState([]);
-    const [a,setA] = useState(true)
       
     useEffect(()=>{
-
-      axios.get('http://localhost:3001/api/coleccion',{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
-        if(res.data.error){
-            alert(res.data.error)
-          }else{    
-            setList(res.data)}
-        },)
-
+      LoadColecciones()
       prevLatValue.current = lat
       prevLngValue.current = lng
       formikRef.current.setFieldValue('latitud',lat)
@@ -49,13 +42,23 @@ function Individuos(props) {
         coleccionID: ''
     }
   
-    const onSubmit=(data)=>{
+    const onSubmit=(data,{resetForm})=>{
       axios.post('http://localhost:3001/api/individuos',data,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
       console.log(res.data);
-      window.location.reload(false)
+      individuoRef.current.Load()
+      resetForm()
     });
-    console.log(data)
   }
+
+
+    const LoadColecciones=()=>{
+      axios.get('http://localhost:3001/api/coleccion',{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
+        if(res.data.error){
+            alert(res.data.error)
+          }else{    
+            setList(res.data)}
+        },)
+    }
   
     const individuoSchema= Yup.object().shape({
         id: Yup.string().required('Este campo es obligatorio'),
@@ -88,7 +91,7 @@ function Individuos(props) {
             <Card>
                 <Card.Header>Tabla de individuos</Card.Header>
                 <Card.Body>
-                  <TablaIndividuos />
+                  <TablaIndividuos ref={individuoRef}/>
                 </Card.Body>
             </Card> 
           </Col>
@@ -105,16 +108,16 @@ function Individuos(props) {
                   <Card.Header>Nombre</Card.Header>
                   <Card.Body>
                     <Card.Text>Id:</Card.Text>
-                    <Field className='form-control' id='id' name='id' autocomplete='off'/>
+                    <Field className='form-control' id='id' name='id' autoComplete='off'/>
                     <ErrorMessage name='id' component='span'/>
                     <Card.Text>Nombre vulgar:</Card.Text>
-                    <Field className='form-control' id='nombreVulgar' name='nombreVulgar' autocomplete='off'/>
+                    <Field className='form-control' id='nombreVulgar' name='nombreVulgar' autoComplete='off'/>
                     <ErrorMessage name='ombreVulgar' component='span'/>
                     <Card.Text>Nombre científico:</Card.Text>
-                    <Field className='form-control' id='nombreCientifico' name='nombreCientifico' autocomplete='off'/>
+                    <Field className='form-control' id='nombreCientifico' name='nombreCientifico' autoComplete='off'/>
                     <ErrorMessage name='nombreCientifico' component='span'/>
                     <Card.Text>Familia de individuos:</Card.Text>
-                    <Field className='form-control' id='nombreFamilia' name='nombreFamilia' autocomplete='off'/>
+                    <Field className='form-control' id='nombreFamilia' name='nombreFamilia' autoComplete='off'/>
                     <ErrorMessage name='nombreFamilia' component='span'/>
                   </Card.Body>
               </Card>
@@ -125,17 +128,17 @@ function Individuos(props) {
                   <Card.Header>Datos fisicos</Card.Header>
                   <Card.Body>
                         <Card.Text>Altura:</Card.Text>
-                        <Field className='form-control' id='altura' name='altura' />
+                        <Field className='form-control' id='altura' name='altura' autoComplete='off'/>
                         <ErrorMessage name='nombreFamilia' component='span'/>
                         <Card.Text>Diámetro:</Card.Text>
-                        <Field className='form-control' id='diametro' name='diametro' />
+                        <Field className='form-control' id='diametro' name='diametro' autoComplete='off'/>
                         <ErrorMessage name='diametro' component='span'/>
                         <Row>
                           <Col>
                           <Card.Text>Latitud</Card.Text>
-                          <Field className='form-control' type='text' id='latitud' name='latitud'autocomplete='off'/>
+                          <Field className='form-control' type='text' id='latitud' name='latitud'autoComplete='off'/>
                           <Card.Text>Longitud</Card.Text>
-                          <Field className='form-control' type='text' id='longitud' name='longitud'autocomplete='off'/>           
+                          <Field className='form-control' type='text' id='longitud' name='longitud'autoComplete='off'/>           
                           </Col>
                           
                           <Col style={{marginTop: '65px'}}>

@@ -1,4 +1,4 @@
-import React from 'react'
+import {React,useRef} from 'react'
 import TablaPersonal from '../../Components/Personal/TablaPersonal.js';
 import {Tab, Tabs,Card,Button,Container,Row,Col} from 'react-bootstrap';
 import './Personal.css'
@@ -10,6 +10,7 @@ import Menu from '../../Components/Menu/Menu'
 
 
 function Personal() {
+   const pRef = useRef()
     const initialValues={
         ci:'',
         fullname:'',
@@ -18,7 +19,7 @@ function Personal() {
         cargo:''
     }
   
-    const onSubmit=(data)=>{
+    const onSubmit=(data,{resetForm})=>{
         const person = {
           ci: data.ci,
           fullname: data.fullname,
@@ -27,7 +28,8 @@ function Personal() {
           cargo: data.cargo
         }
       axios.post('http://localhost:3001/api/personal',person,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
-      console.log(res.data);
+      pRef.current.Load()
+      resetForm()
     })}
 
 
@@ -57,7 +59,7 @@ function Personal() {
             <Card>
               <Card.Header>Personal</Card.Header>
               <Card.Body>
-                <TablaPersonal />
+                <TablaPersonal ref={pRef}/>
               </Card.Body>
             </Card>
             </Col>

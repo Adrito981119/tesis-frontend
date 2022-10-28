@@ -63,6 +63,7 @@ function Menu(props) {
                                 <Formik initialValues={initialValues} onSubmit={changePassword} validationSchema={changeSchema}>
                                 <Form>
                                 <Modal.Body>
+                                    <p style={{color: 'red'}}><strong>No implementado</strong></p>
                                 </Modal.Body>
                                 <Modal.Footer>
                                     <Button type='submit'>Cambiar</Button>

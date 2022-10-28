@@ -1,4 +1,4 @@
-import {React, useEffect, useState} from 'react'
+import {React, useEffect, useState,useRef} from 'react'
 import { useParams, useNavigate} from 'react-router-dom'
 import axios from 'axios'
 import {Container, Row,Col,Card,Button, Tab, Tabs} from 'react-bootstrap'
@@ -11,21 +11,25 @@ import {BsFillCalendarPlusFill}from 'react-icons/bs'
 
 
 function Tareas() {
-
-  const navigator = useNavigate()
+  const taskRef = useRef()
 
   const initialValues={
       fechainicio:'',
       fechafin:'',
       descripcion:'',
-      cumplida: false,
-      fechacumplida: null,
   }
 
-  const onSubmit=(data)=>{
-    axios.post('http://localhost:3001/api/tareas',data,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
-    console.log(res.data);
-    window.location.reload(false)
+  const onSubmit=(data,{resetForm})=>{
+    const tarea ={
+      fechainicio: data.fechainicio,
+      fechafin: data.fechafin,
+      descripcion: data.descripcion,
+      cumplida: false,
+      fechacumplida: null
+    }
+    axios.post('http://localhost:3001/api/tareas',tarea,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
+    taskRef.current.LoadTask()
+    resetForm()
   });
 }
 
@@ -37,9 +41,9 @@ function Tareas() {
   })
   
   return (
-    <div className='component'>
+    <div>
       <Menu/>
-      <Container fluid>
+      <Container fluid='true'>
       <Tabs>
         <Tab eventKey='pendientes' title='Tareas pendientes'>
               <Row>
@@ -47,23 +51,23 @@ function Tareas() {
                   <Card>
                     <Card.Header>Nueva Tarea</Card.Header>
                     <Card.Body>
-                      <TablaTareas />
+                      <TablaTareas ref={taskRef} />
                       </Card.Body>
                   </Card>
                 </Col>
 
-                <Col name="formulario">
-                  <Card style={{width: '95%'}}> 
+                <Col>
+                  <Card> 
                     <Card.Title style={{alignSelf: 'center'}}>Programar tarea</Card.Title>
                     <Card.Body>
                       <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={tareaSchema}>
                         <Form>
                           <Card.Text>Fecha de inicio</Card.Text>
-                          <Field className='form-control' id='fechainicio' name='fechaincio' type='date'/>
+                          <Field className='form-control'  name='fechainicio' type='date'/>
                           <Card.Text>Fecha límite</Card.Text>
-                          <Field className='form-control' id='fechafin' name='fechafin' type='date'/>
+                          <Field className='form-control' name='fechafin' type='date'/>
                           <Card.Text>Descripción</Card.Text>
-                          <Field as='textarea' name='descripcion' className="form-control" placeholder="Descripcion"></Field>
+                          <Field as='textarea' name='descripcion' className="form-control" placeholder="Descripcion"/>
                           <ErrorMessage name='descripcion' component='span'></ErrorMessage>
 
                           <div style={{marginTop: '35px'}}>

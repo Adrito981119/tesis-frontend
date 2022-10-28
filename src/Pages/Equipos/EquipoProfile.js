@@ -34,16 +34,18 @@ function EquipoProfile() {
       PersonalCi: ''
     }
 
-   const onSubmit=(data)=>{
+   const onSubmit=(data,{resetForm})=>{
         axios.put(`http://localhost:3001/api/equipos/${id}`,data,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
         loadTeam()
+        resetForm()
       })}
 
-    const addMember=(data)=>{
+    const addMember=(data,{resetForm})=>{
       const d = {ci: data.PersonalCi}
       axios.post(`http://localhost:3001/api/equipos/miembros/${id}`,d,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
         alert(res.data)
         loadMembers()
+        resetForm()
       }) 
     }
       
@@ -99,7 +101,7 @@ function EquipoProfile() {
                             return (
                             <tr key={value.ci}>
                                 <td>{value.ci}</td>
-                                <td>{value.fullname}</td>
+                                <td>{value.ful}</td>
                                 <td>{value.cargo}</td>
                             <td><Button variant='primary' onClick={()=>{navigate('/personal/'+value.ci)}}>Ver</Button></td>
                             <td><Button variant='danger' onClick={()=>{deleteMember(value.ci)}}>Eliminar</Button></td>

@@ -19,14 +19,21 @@ function ColeccionProfile() {
     const [individuos,setIndividuos] = useState([]);
     const [edit,setEditMode] = useState(false)
     useEffect(()=>{
-            axios.get(`http://localhost:3001/api/coleccion/${id}`,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
-                setColeccion(res.data)
-            });
-            axios.get(`http://localhost:3001/api/individuos/byColeccion/${id}`,{headers: {'token': localStorage.getItem('token')}}).then((res)=>{
-              setIndividuos(res.data)
-            });
+      LoadColeccion()
+      LoadColeccionMembers()
         // eslint-disable-next-line react-hooks/exhaustive-deps
         },[coleccion.id])
+
+        const LoadColeccion=()=>{
+          axios.get(`http://localhost:3001/api/coleccion/${id}`,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
+            setColeccion(res.data)
+        });
+        }
+        const LoadColeccionMembers=()=>{
+          axios.get(`http://localhost:3001/api/individuos/byColeccion/${id}`,{headers: {'token': localStorage.getItem('token')}}).then((res)=>{
+            setIndividuos(res.data)
+          });
+        }
 
         const onDelete=()=>{
           axios.delete(`http://localhost:3001/api/coleccion/${id}`,{headers:{'token':localStorage.getItem('token')}}).then((res)=>{
@@ -45,7 +52,7 @@ function ColeccionProfile() {
           axios.put(`http://localhost:3001/api/coleccion/${coleccion.id}`,data,{headers:{'token':localStorage.getItem('token')}}).then(
             (res)=>{
               setEditMode(false)
-              navigate('/coleccion')
+              LoadColeccion()
             }
           )
         }

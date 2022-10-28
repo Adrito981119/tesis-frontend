@@ -1,5 +1,4 @@
-import React from 'react'
-import { useEffect, useState} from 'react';
+import {React, useEffect, useState,forwardRef,useImperativeHandle} from 'react';
 import {Button,Table,Alert} from 'react-bootstrap';
 import {Formik,Form,Field,ErrorMessage} from 'formik'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,20 +7,24 @@ import CustomModal from '../CustomModal';
 import * as Yup from 'yup'
 import {BsFillCalendarXFill}from 'react-icons/bs'
 
-function TablaTareas() {
+const TablaTareas= forwardRef(
+  (props,ref)=>{
+
     const [taskList, setTaskList] = useState([]);
   
     useEffect(() => {
-    axios.get('http://localhost:3001/api/tareas/pendientes',{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
-          setTaskList(res.data)
-      },)
+      LoadTask()
   }, []);
 
+  const LoadTask=()=>{
+    axios.get('http://localhost:3001/api/tareas/pendientes',{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
+      setTaskList(res.data)
+  },)
+  }
 
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  useImperativeHandle(ref,()=>({
+    LoadTask
+  }))
 
   const cumplir = (id)=>{
     const timestamp= Date.now()
@@ -56,6 +59,12 @@ const Reasignar=(data)=>{
     fechainicio: Yup.date().required('Este campo es obligatorio'),
     fechafin:Yup.date().required('Este campo es obligatorio'),
 })
+
+const onDelete=(id)=>{
+  axios.delete(`http://localhost:3001/api/tareas/${id}`,{headers:{'token':localStorage.getItem('token')}}).then((res)=>{
+    LoadTask()
+  })
+}
 
   return (
     <div>
@@ -94,32 +103,26 @@ const Reasignar=(data)=>{
                           <td>{value.fechafin}</td>
                           <td>{value.descripcion}</td>
                           
-                      <td><CustomModal name='Reprogramar' title='Reprogramar fechas' buttonStyle='primary'
-                            body= {
-                                <Formik initialValues={initialValues} onSubmit={Reprogramar} validationSchema={tareaSchema}>
-                                <Form>
-                                  <Field className='form-control' id='fechainicial' name='fechainicial' type='date'/>
-                                  <Field className='form-control' id='fechafin' name='fechafin' type='date'/>
-                                <Button style={{marginTop: '15px'}}>Reprogramar</Button>
-                                </Form>
-                              </Formik>
-                            }
-                      /></td>
+                      <td>
+                          <Button variant='primary' disabled>Reprogramar</Button>
+                      </td>
+                      <td>
+                       <Button variant='warning' disabled>Reasignar</Button>
+                      </td>
+                      <td>
+                        <Button variant='success' onClick={()=>{cumplir(value.id)}}>Cumplida</Button>
+                      </td>
 
-                      <td><Button variant='success' >Reasignar</Button></td>
-
-                      <td><CustomModal name='Cumplida' title='Cumplir tarea' buttonStyle='success'
-                      body='Estas seguro que desea dar la tarea por cumplida. Se registrara la fecha actual'
-                      footer={
-                        <>
-                        <Button variant="secondary" onClick={handleClose}>Cerrar</Button>
-                        <Button variant="success" onClick={()=>{cumplir(value.id)}}>Aceptar</Button>
-                        </>
-                      }
-                      /></td>
-
-                      <td><Button variant='danger'>Eliminar</Button></td>
-
+                      <td>
+                        <CustomModal name='Eliminar' title='Eliminar tarea' buttonStyle='danger'
+                          body={
+                            <p>¿Estás seguro que desea eliminar este elemento?</p>
+                          }
+                          footer={
+                            <Button variant='danger' onClick={()=>{onDelete(value.id)}}>Eliminar</Button>
+                          }
+                        />
+                      </td>
                       </tr>
                       )
                     })} 
@@ -131,5 +134,6 @@ const Reasignar=(data)=>{
     </div>
   )
 }
+)
 
 export default TablaTareas
