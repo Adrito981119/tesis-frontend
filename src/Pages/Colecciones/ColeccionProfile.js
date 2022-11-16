@@ -9,7 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Menu from '../../Components/Menu/Menu';
 import CustomModal from '../../Components/CustomModal';
-import {BsFillPencilFill,BsCheckLg,BsXLg} from 'react-icons/bs'
+import {BsFillPencilFill,BsCheckLg,BsXLg,} from 'react-icons/bs'
+import {MdDeleteForever} from 'react-icons/md'
 function ColeccionProfile() {
 
     const navigate = useNavigate();
@@ -58,10 +59,10 @@ function ColeccionProfile() {
         }
       
         const coleccionSchema= Yup.object().shape({
-          nombreVulgar:Yup.string().required('Este campo es obligatorio'),
-          nombreCientifico:Yup.string().required('Este campo es obligatorio'),
-          nombreFamilia:Yup.string().required('Este campo es obligatorio'),
-          posicion:Yup.string(),
+          nombreVulgar:Yup.string().trim('No puede contener espacios al inicio ni al final').strict().required('Este campo es obligatorio'),
+          nombreCientifico:Yup.string().trim('No puede contener espacios al inicio ni al final').strict().required('Este campo es obligatorio'),
+          nombreFamilia:Yup.string().trim('No puede contener espacios al inicio ni al final').strict().required('Este campo es obligatorio'),
+          posicion:Yup.string().trim('No puede contener espacios al inicio ni al final').strict(),
         })
         
   return (
@@ -122,11 +123,29 @@ function ColeccionProfile() {
                               buttonStyle= 'danger'
                               title='Eliminar coleccion'
                               body={
-                                <p>¿Esta seguro que desea eliminar el elemento?</p>
+                                <p>¿Esta seguro que desea eliminar el elemento?<br/>
+                                Los elementos eliminados se guardaran en el registro
+                                </p>
                               }
                               footer={
                                 <>
-                                  <Button variant='danger' onClick={()=>{onDelete()}}>Eliminar</Button>
+                                  <Button variant='warning'>Eliminar</Button>
+                                  <CustomModal
+                                  name='Eliminar Permanentemente'
+                                  buttonStyle='danger'
+                                  title='Eliminación Permanente'
+                                  body={
+                                    <p>
+                                      ¿Estas seguro que desea eliminar <strong>permanentemente</strong> la coleccion?<br/>
+                                      <strong>Esta acción no se podrá deshacer</strong>
+                                    </p>
+                                  }
+                                  footer={
+                                    <>
+                                    <Button variant='danger' onClick={()=>{onDelete(id)}}><MdDeleteForever/> Eliminar</Button>
+                                    </>
+                                  }
+                                  />
                                 </>
                               }
                               />

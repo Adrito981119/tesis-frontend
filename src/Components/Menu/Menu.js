@@ -3,7 +3,7 @@ import './Menu.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {useNavigate} from 'react-router-dom'
 import * as Yup from 'yup'
-import {Formik,Form,Field,ErrorMessage} from 'formik'
+import {Formik,Form} from 'formik'
 import{Container,Nav,Navbar,Button,ButtonGroup,Dropdown,DropdownButton,Modal} from 'react-bootstrap'
 import {BsFillPersonLinesFill,BsGeoAltFill,BsShieldLockFill,BsPeopleFill,BsFillHouseFill,
     BsFillCalendarWeekFill,BsFillPersonBadgeFill,BsFillTagFill,BsFillTagsFill} from 'react-icons/bs'
@@ -44,16 +44,15 @@ function Menu(props) {
                     <Navbar.Brand>Logo</Navbar.Brand>
                     </div>
                     <ButtonGroup>
-                    <Button  type='button' onClick={()=>{navigator('/home')}}><BsFillHouseFill/></Button>
+                    <Button  type='button' disabled onClick={()=>{navigator('/home')}}><BsFillHouseFill/></Button>
                     <Button  type='button' onClick={()=>{navigator('/colecciones')}}><BsFillTagsFill/>Colecciones</Button>
                     <Button  type='button' onClick={()=>{navigator('/individuos')}}><BsFillTagFill/>Individuos</Button>
-                    <Button  type='button' onClick={()=>{navigator('/personal')}}><BsFillPersonBadgeFill/>Personal</Button>
+                    <Button  type='button' onClick={()=>{navigator('/personal')}}><BsPeopleFill/>Personal</Button>
                     <Button  type='button' onClick={()=>{navigator('/tareas')}}><BsFillCalendarWeekFill/>Tareas</Button>
-                    <Button  type='button' onClick={()=>{navigator('/equipos')}}><BsPeopleFill/>Equipos</Button>
                     <Button  type='button' onClick={()=>{navigator('/mapa')}}><BsGeoAltFill/>Mapa</Button>
                     <Button  type='button' onClick={()=>{navigator('/usuarios')}}><BsFillPersonBadgeFill/>Usuarios</Button>
                     <DropdownButton as={ButtonGroup} type='button' title= {<BsFillPersonLinesFill/>}>
-                        <Dropdown.Item onClick={handleShow}>
+                        <Dropdown.Item onClick={handleShow} disabled>
                             <BsShieldLockFill/> Cambiar contraseña
                         </Dropdown.Item>
                             <Modal show={show} onHide={handleClose}>

@@ -38,8 +38,6 @@ const TablaPersonal = forwardRef(
     <InputGroup>
       <Form.Control placeholder='Carnet de identidad'></Form.Control>
       <Form.Control placeholder='Nombre'></Form.Control>
-      <Form.Control placeholder='Apellido'></Form.Control>
-      <Form.Control placeholder='Equipo'></Form.Control>
     </InputGroup>
     </div>
     <div name='tabla de personal'>
@@ -48,9 +46,6 @@ const TablaPersonal = forwardRef(
           <tr>
             <th>Carnet</th>
             <th>Nombre completo</th>
-            <th>Email</th>
-            <th>Telefono</th>
-            <th>Cargo</th>
             <th>Ver Ficha</th>
           </tr>
         </thead>
@@ -60,10 +55,7 @@ const TablaPersonal = forwardRef(
             <tr key={value.ci}>
             <td>{value.ci}</td>
             <td style={{textTransform: 'capitalize'}}>{value.fullname}</td>
-            <td>{value.email}</td>
-            <td>{value.telefono}</td>
-            <td>{value.cargo}</td>
-            <td><Button variant='primary' onClick={()=>{navigator('/personal/'+value.ci)}}>Ver</Button></td>
+            <td><Button variant='primary' onClick={()=>{navigator(`/personal/${value.ci}`)}}>Ver</Button></td>
             </tr>
             )
           })} 

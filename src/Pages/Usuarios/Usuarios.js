@@ -46,9 +46,15 @@ function Usuarios() {
         
         
           const userSchema= Yup.object().shape({
-              username: Yup.string().required('Este campo es obligatorio'),
-              password:Yup.string().required('Este campo es obligatorio'),
-              owner:Yup.string().required('Este campo es obligatorio'),
+              username: Yup.string()
+              .trim('No puede contener espacios al inicio ni al final').strict()
+              .required('Este campo es obligatorio'),
+
+              password:Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
+              .required('Este campo es obligatorio'),
+
+              owner:Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
+              .required('Este campo es obligatorio'),
           })
     
   return (
@@ -90,10 +96,10 @@ function Usuarios() {
                             }
                         </Field>
                         <Card.Text>Nombre de usuario</Card.Text>
-                        <Field className='form-control' id='username' name='username' placeholder='Puede contener letras y números'/>
+                        <Field className='form-control' id='username' name='username' placeholder='Puede contener letras y números'  autoComplete='off'/>
                         <ErrorMessage name='username' component='span'/>
                         <Card.Text>Contraseña</Card.Text>
-                        <Field className='form-control' id='password' name='password' type='password'/>
+                        <Field className='form-control' id='password' name='password' type='password'  autoComplete='off'/>
                         <ErrorMessage name='password' component='span'/>
                     <Card.Footer>
                         <Button type='submit'>Crear usuario</Button>

@@ -54,10 +54,10 @@ const loginSchema= Yup.object().shape({
           <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={loginSchema}>
             <Form>
                 <label className='form-label' style={{color: 'black'}}>Usuario</label>
-                <Field className='form-control' id='username' name='username' placeholder="Entre su usuario" autocomplete='off'/>
+                <Field className='form-control' id='username' name='username' placeholder="Entre su usuario" autoComplete='off'/>
                 <div><ErrorMessage name='username' component='span'/></div>
                 <label className='form-label' style={{color: 'black'}}>Contraseña</label>
-                <Field className='form-control' type='password' id='password' name='password' placeholder="Contraseña" autocomplete='off'/>
+                <Field className='form-control' type='password' id='password' name='password' placeholder="Contraseña" autoComplete='off'/>
                 <div><ErrorMessage name='password' component='span'/></div>
                 <label className="text-muted form-label"style={{fontSize:12}}>Nunca comparta su contraseña con otros</label>
 

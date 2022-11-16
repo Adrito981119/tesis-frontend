@@ -33,10 +33,18 @@ function Tareas() {
   });
 }
 
+  const fecha = ()=>{
+    const timestamp = Date.now()
+    return Date(timestamp)
+  }
 
   const tareaSchema= Yup.object().shape({
-      fechainicio: Yup.date().required('Este campo es obligatorio'),
-      fechafin:Yup.date().required('Este campo es obligatorio'),
+      fechainicio: Yup.date()
+      .min(fecha(),'No se puede programar una tarea para un dia anterior a hoy')
+      .required('Este campo es obligatorio'),
+      fechafin:Yup.date()
+      .min(fecha(),'No se puede programar una tarea para un dia anterior a hoy')
+      .required('Este campo es obligatorio'),
       descripcion:Yup.string().required('Este campo es obligatorio'),
   })
   
@@ -64,11 +72,13 @@ function Tareas() {
                         <Form>
                           <Card.Text>Fecha de inicio</Card.Text>
                           <Field className='form-control'  name='fechainicio' type='date'/>
+                          <ErrorMessage name='fechainicio' component='span' />
                           <Card.Text>Fecha límite</Card.Text>
                           <Field className='form-control' name='fechafin' type='date'/>
+                          <ErrorMessage name='fechafin' component='span' />
                           <Card.Text>Descripción</Card.Text>
                           <Field as='textarea' name='descripcion' className="form-control" placeholder="Descripcion"/>
-                          <ErrorMessage name='descripcion' component='span'></ErrorMessage>
+                          <ErrorMessage name='descripcion' component='span' />
 
                           <div style={{marginTop: '35px'}}>
                           <Button variant='success' type='submit'>Añadir</Button>

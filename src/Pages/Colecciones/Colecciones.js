@@ -28,11 +28,15 @@ function Colecciones() {
 }
 
   const coleccionSchema= Yup.object().shape({
-    id: Yup.string().required('Este campo es obligatorio'),
-    nombreVulgar:Yup.string().required('Este campo es obligatorio'),
-    nombreCientifico:Yup.string().required('Este campo es obligatorio'),
-    nombreFamilia:Yup.string().required('Este campo es obligatorio'),
-    posicion:Yup.string(),
+    id: Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
+    .required('Este campo es obligatorio'),
+    nombreVulgar:Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
+    .required('Este campo es obligatorio'),
+    nombreCientifico:Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
+    .required('Este campo es obligatorio'),
+    nombreFamilia:Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
+    .required('Este campo es obligatorio'),
+    posicion:Yup.string().trim('No puede contener espacios al inicio ni al final').strict(),
     cant: Yup.number().positive()
   })
 

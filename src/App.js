@@ -8,12 +8,9 @@ import Individuos from './Pages/Individuos/Individuos';
 import IndividuosProfile from './Pages/Individuos/IndividuosProfile';
 import Personal from './Pages/Personal/Personal';
 import PersonProfile from './Pages/Personal/PersonProfile';
-import Equipos from './Pages/Equipos/Equipos';
-import EquipoProfile from './Pages/Equipos/EquipoProfile';
 import Tareas from './Pages/Tareas/Tareas'
 import Usuarios from './Pages/Usuarios/Usuarios'
 import Mapa from './Pages/Mapa/Mapa';
-import DeadEnd from './Pages/DeadEnd';
 function App() {
   return (
     <div>        
@@ -27,12 +24,9 @@ function App() {
           <Route path='/individuos/:id' element={<IndividuosProfile/>}/>
           <Route path='/personal' element={<Personal/>}/>
           <Route path='/personal/:ci' element={<PersonProfile/>}/>
-          <Route path='/equipos' element={<Equipos />}/>
-          <Route path='/equipos/:id' element={<EquipoProfile />}/>
           <Route path='/tareas' element={<Tareas/>}/>
           <Route path='/usuarios' element={<Usuarios/>}/>
           <Route path='/mapa' element={<Mapa/>}/>
-          <Route path='*' element={<DeadEnd />} />
         </Routes>
       </Router>
   </div> 

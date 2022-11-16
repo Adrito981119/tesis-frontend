@@ -67,7 +67,7 @@ const Load= ()=>{
               <td>{value.nombreVulgar}</td>
               <td>{value.nombreCientifico}</td>
               <td>{value.nombreFamilia}</td>
-              <td><Button disabled='true'>Ver en el mapa</Button></td>
+              <td><Button disabled>Ver en el mapa</Button></td>
               <td><Button variant='primary' onClick={()=>{navigate(`/colecciones/${value.id}`)}}>Ver</Button></td>
               </tr>
               )

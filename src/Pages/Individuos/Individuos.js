@@ -12,6 +12,7 @@ import TablaIndividuos from '../../Components/Individuos/TablaIndividuos.js';
 import { useNavigate } from 'react-router-dom';
 import Menu from '../../Components/Menu/Menu'
 import CustomModal from '../../Components/CustomModal.js';
+import TablaRegistro from '../../Components/Individuos/TablaRegistro';
 
 function Individuos(props) {
     const navigate = useNavigate()
@@ -44,7 +45,7 @@ function Individuos(props) {
   
     const onSubmit=(data,{resetForm})=>{
       axios.post('http://localhost:3001/api/individuos',data,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
-      console.log(res.data);
+      alert(res.data);
       individuoRef.current.Load()
       resetForm()
     });
@@ -62,14 +63,18 @@ function Individuos(props) {
   
     const individuoSchema= Yup.object().shape({
         id: Yup.string().required('Este campo es obligatorio'),
-        nombreVulgar:Yup.string().required('Este campo es obligatorio'),
-        nombreCientifico:Yup.string().required('Este campo es obligatorio'),
-        nombreFamilia:Yup.string().required('Este campo es obligatorio'),
+        nombreVulgar:Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
+        .required('Este campo es obligatorio'),
+        nombreCientifico:Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
+        .required('Este campo es obligatorio'),
+        nombreFamilia:Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
+        .required('Este campo es obligatorio'),
         latitud: Yup.number(),
         longitud: Yup.number(),
         diametro: Yup.number().required(),
         altura: Yup.number().required(),
-        coleccionID: Yup.string().required('Los individuos deben pertenecer a una coleccion')
+        coleccionID: Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
+        .required('Los individuos deben pertenecer a una coleccion')
     })
 
     const setLatLng=(p)=>{
@@ -175,12 +180,10 @@ function Individuos(props) {
                           
                           {
                             list.length === 0 ?
-                            <>
                             <Col>
                               <Alert variant='danger'>No existe colecciones creadas, no es posible crear un nuevo individuo</Alert>
                               <Button variant='primary' onClick={()=>{navigate('/colecciones')}}>Crear Coleccion</Button>
-                            </Col>
-                            </>:
+                            </Col>:
                             <Col>
                             <Field as ='select' className='form-select' name='coleccionID' id="coleccionID">
                               <option defaultValue='null'>Seleccione la coleccion</option>
@@ -216,6 +219,19 @@ function Individuos(props) {
         </Row>        
       </Form>
     </Formik>
+    </Tab>
+    <Tab eventKey='registro' title='Registro'>
+    <Row>
+          <Col>
+            <Card>
+                <Card.Header>Registro de individuos</Card.Header>
+                <Card.Body>
+                  <TablaRegistro/>
+                </Card.Body>
+            </Card> 
+          </Col>
+        </Row>
+      
     </Tab>
   </Tabs>
 </Container>

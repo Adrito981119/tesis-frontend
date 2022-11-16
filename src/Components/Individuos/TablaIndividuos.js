@@ -3,7 +3,6 @@ import {Button, Table,InputGroup,Alert,OverlayTrigger,Popover} from 'react-boots
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'leaflet/dist/leaflet.css';
 import markerIcon from 'leaflet/dist/images/marker-icon.png'
-import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {BsFillEmojiFrownFill} from 'react-icons/bs'

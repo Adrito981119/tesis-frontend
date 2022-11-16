@@ -1,14 +1,16 @@
 import {React,useEffect,useState} from 'react'
 import { useParams } from 'react-router-dom'
-import {Container, Row,Button, Card,Col,ButtonGroup} from 'react-bootstrap';
+import {Container, Row,Button, Card,Col,ButtonGroup,Dropdown,DropdownButton,Modal} from 'react-bootstrap';
 import { Formik,Form,Field,ErrorMessage } from 'formik';
-import {BsFillPencilFill,BsCheckLg,BsXLg} from 'react-icons/bs'
+import {BsFillPencilFill,BsCheckLg,BsXLg,BsThreeDots} from 'react-icons/bs'
 import * as Yup from 'yup'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './Individuos.css'
 import CustomModal from '../../Components/CustomModal'
 import Menu from '../../Components/Menu/Menu'
+import DropdownItem from 'react-bootstrap/esm/DropdownItem';
 
 function IndividuosProfile() {
   const navigate = useNavigate();
@@ -16,6 +18,13 @@ function IndividuosProfile() {
   const {id} = useParams();
   const [individuo,setIndividuo]   = useState({});
   const [edit,setEditMode] = useState(false)
+
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   useEffect(()=>{
       LoadInd()
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -27,33 +36,100 @@ function IndividuosProfile() {
       });
       }
 
-      const onDelete=()=>{
-        axios.delete(`http://localhost:3001/api/individuos/${id}`,{headers:{'token':localStorage.getItem('token')}}).then((res)=>{
-          navigate('/individuos')
-        })}
-
-        const initialValues={
+        //valores iniciales
+        const editValues={
           nombreVulgar:individuo.nombreVulgar,
           nombreCientifico:individuo.nombreCientifico,
           nombreFamilia:individuo.nombreFamilia,
           diametro:individuo.diametro,
           altura:individuo.altura,
+          motivo: '',
+      } 
+
+      const deleteValues= {
+        borrado:''
       }
     
-      const onSubmit=(data)=>{
-        axios.put(`http://localhost:3001/api/individuos/${id}`,data,{headers:{'token':localStorage.getItem('token')}}).then((res)=>{
-          setEditMode(false)
-          LoadInd()
+      //funciones formularios
+      const onEdit=(data)=>{
+        const nextState = {
+          nombreVulgar: data.nombreVulgar,
+          nombreCientifico:data.nombreCientifico,
+          nombreFamilia:data.nombreFamilia,
+          diametro: data.diametro,
+          altura: data.altura,
+        }
+        const timestamp = Date.now()
+        const d = new Date(timestamp)
+        const prevState={
+          id: individuo.id,
+          fechacambio:d,
+          motivo: data.motivo,
+          eliminado: false,
+          nombreVulgar: individuo.nombreVulgar,
+          nombreCientifico: individuo.nombreCientifico,
+          nombreFamilia: individuo.nombreFamilia,
+          latitud: individuo.latitud,
+          longitud: individuo.longitud,
+          diametro: individuo.diametro,
+          altura: individuo.altura,
+          coleccionID: individuo.coleccionID
+        }
+        axios.put(`http://localhost:3001/api/individuos/${id}`,nextState,{headers:{'token':localStorage.getItem('token')}}).then(
+          ()=>{
+            axios.post('http://localhost:3001/api/individuos/record',prevState,{headers:{'token':localStorage.getItem('token')}})
+                setEditMode(false)
+                LoadInd()          
+          }
+        )
+      }
+
+      const onDelete=(data)=>{
+        if(data.borrado!==''){
+          const timestamp = Date.now()
+          const d = new Date(timestamp)
+          const prevState={
+            id: individuo.id,
+            fechacambio:d,
+            motivo: data.borrado,
+            eliminado: true,
+            nombreVulgar: individuo.nombreVulgar,
+            nombreCientifico: individuo.nombreCientifico,
+            nombreFamilia: individuo.nombreFamilia,
+            latitud: individuo.latitud,
+            longitud: individuo.longitud,
+            diametro: individuo.diametro,
+            altura: individuo.altura,
+            coleccionID: individuo.coleccionID
+          }
+          axios.post('http://localhost:3001/api/individuos/record',prevState,{headers:{'token':localStorage.getItem('token')}}).then((res)=>{
+            console.log(res)
+          })
+        }
+          axios.delete(`http://localhost:3001/api/individuos/${individuo.id}`,{headers:{'token':localStorage.getItem('token')}}).then((res)=>{
+          navigate('/individuos')
         })
       }
-    
-      const individuoSchema= Yup.object().shape({
-          nombreVulgar:Yup.string().required('Este campo es obligatorio'),
-          nombreCientifico:Yup.string().required('Este campo es obligatorio'),
-          nombreFamilia:Yup.string().required('Este campo es obligatorio'),
+
+        //esquemas de validacion
+      const editSchema= Yup.object().shape({
+          nombreVulgar:Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
+          .required('Este campo es obligatorio'),
+          nombreCientifico:Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
+          .required('Este campo es obligatorio'),
+          nombreFamilia:Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
+          .required('Este campo es obligatorio'),
           diametro: Yup.number().required(),
           altura: Yup.number().required(),
+          motivo:Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
+          .required('Se debe especificar motivo del cambio'),
       })
+
+      const deleteSchema= Yup.object().shape(
+        {
+          borrado: Yup.string().trim('No puede contener espacios al inicio ni al final').strict().required('Especifique un motivo')
+        }
+      )
 
   return (
     <div>
@@ -67,7 +143,14 @@ function IndividuosProfile() {
                 <>
                         <Card.Header className='editCardHeader'> 
                       <p><strong>Individuo</strong></p>
-                      <Button className='editButton' onClick={()=>{setEditMode(true)}}><BsFillPencilFill/></Button>
+                      <DropdownButton className='editButton' title={<BsThreeDots/>}>
+                        <DropdownItem onClick={()=>{setEditMode(true)}}>
+                         <BsFillPencilFill/> Editar datos
+                        </DropdownItem>
+                        <Dropdown.Item>
+                          Trasladar individuo
+                        </Dropdown.Item>
+                      </DropdownButton>
                     </Card.Header>
                       <Card.Body>
                         <Card.Text>Id: {individuo.id}</Card.Text>
@@ -80,21 +163,40 @@ function IndividuosProfile() {
                       </Card.Body>
                       <Card.Footer>
                             <ButtonGroup>
-                              <CustomModal 
-                              name='Eliminar'
-                              buttonStyle= 'danger'
-                              title='Eliminar coleccion'
-                              body={
-                                <p>¿Esta seguro que desea eliminar el elemento?</p>
-                              }
-                              footer={
-                                <>
-                                  <Button variant='danger' onClick={()=>{onDelete()}}>Eliminar</Button>
-                                </>
-                              }
-                              />
-                              <Button>Ver Historial</Button>
-                              <Button variant='secondary' type='button' onClick={()=>{navigate('/colecciones')}}>Atrás</Button>
+
+                            <Button variant= 'danger' onClick={handleShow}>
+                              Eliminar
+                            </Button>
+                            <Modal show={show} onHide={handleClose}>
+                              <Modal.Header closeButton>
+                                <Modal.Title>Eliminar</Modal.Title>
+                              </Modal.Header>
+                              <Formik initialValues={deleteValues} onSubmit={onDelete} validationSchema={deleteSchema}>
+                              <Form>
+                              <Modal.Body>     
+                                
+                                                           <p>¿Esta seguro que desea eliminar el elemento?</p>
+                                <label className='form-label'>Motivo<br/><strong>
+                                  Debe especificarse un motivo por el cual se elimina dicho elemento, esta información puede ser
+                                  util para futuras investigaciones.
+                                  </strong>
+                                  </label>
+                                <Field as='textarea' id='borrado' name='borrado' className='form-control' 
+                                placeholder='Debe especificarse un motivo'/>
+                                <ErrorMessage name='borrado'/>
+                                
+                                </Modal.Body>
+
+                              <Modal.Footer>
+                                <Button variant='secondary' onClick={()=>{handleClose()}}>Cerrar</Button>
+                                <Button variant='danger' type='submit'>Eliminar</Button>
+                              </Modal.Footer>
+                              
+                            </Form>
+                            </Formik>
+                            </Modal>
+                              <Button>Trasladar individuo</Button>
+                              <Button variant='secondary' type='button' onClick={()=>{navigate('/individuos')}}>Atrás</Button>
                             </ButtonGroup>
                       </Card.Footer> 
                 </>
@@ -103,9 +205,11 @@ function IndividuosProfile() {
                     <Card.Header className='editCardHeader'> 
                       <p><strong>Editar individuo Id: {individuo.id}</strong></p>
                     </Card.Header>
-                    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={individuoSchema}>
+                    <Formik initialValues={editValues} onSubmit={onEdit} validationSchema={editSchema}>
                       <Form>
                       <Card.Body>
+                        <Row>
+                        <Col>
                         <Card.Text className='form-label'>Nombre Vulgar:</Card.Text>
                         <Field id='nombreVulgar' name='nombreVulgar' className='form-control' defaultValue={individuo.nombreVulgar} autoComplete='off' />
                         <ErrorMessage name='nombreVulgar'/>
@@ -121,10 +225,21 @@ function IndividuosProfile() {
                         <Card.Text className='form-label'>Altura:</Card.Text>
                         <Field id='posicion' name='altura' className='form-control' defaultValue={individuo.altura} autoComplete='off'/>
                         <ErrorMessage name='altura'/>
+                        </Col>
+                        <Col>
+                        <Card.Text className='form-label editConfirmLabel'>Este mensaje es util para comprender 
+                                          la razón de cambio de información, no se puede
+                                          modificar información sin especificar el motivo.<br/> <strong>Los datos previamente registrados irán al
+                                            registro para futuras investigaciones</strong></Card.Text>
+                                          <Field as='textarea' className='form-control' name='motivo' id='motivo'
+                                          placeholder='Mensaje'
+                                          />
+                        </Col>
+                        </Row>
                       </Card.Body>
                       <Card.Footer>
                             <ButtonGroup>
-                              <Button type='submit' variant='success'><BsCheckLg/></Button>
+                            <Button type='submit' variant= 'success'><BsCheckLg/></Button>
                               <Button onClick={()=>{setEditMode(false)}} variant='secondary'><BsXLg/></Button>
                             </ButtonGroup>
                       </Card.Footer>   
