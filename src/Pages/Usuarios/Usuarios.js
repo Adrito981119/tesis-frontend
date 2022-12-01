@@ -27,21 +27,20 @@ function Usuarios() {
     const initialValues={
         username: '',
         password: '',
+        role: '',
         owner:''
         };
 
         const onSubmit=(data)=>{
-            const usuario = {usuario: data.username}
-            console.log(usuario)
-            axios.post('http://localhost:3001/auth',data,{headers:{'token': localStorage.getItem('token')}}).then(()=>{
-                axios.put(`http://localhost:3001/api/personal/${data.owner}`,usuario)
-                .then((res)=>{
-                    console.log(res.data)
-                    loadPerson()
-                })
-            })
-
-
+            axios.post('http://localhost:3001/auth',data,{headers:{'token': localStorage.getItem('token')}}).then(
+                (res)=>{
+                    if(res.data.error){
+                        alert(res.data.error)
+                    }
+                    alert('Usuario creado')
+                    window.location.reload(false)
+                }
+            )
         }
         
         
@@ -55,12 +54,15 @@ function Usuarios() {
 
               owner:Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
               .required('Este campo es obligatorio'),
+
+              role:Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
+              .required('Este campo es obligatorio'),
           })
     
   return (
     <div className='component'>
         <Menu/>
-        <Container fluid>
+        <Container>
         <Row>
             <Col>
             <Card>
@@ -101,6 +103,12 @@ function Usuarios() {
                         <Card.Text>Contraseña</Card.Text>
                         <Field className='form-control' id='password' name='password' type='password'  autoComplete='off'/>
                         <ErrorMessage name='password' component='span'/>
+                        <Card.Text>Rol</Card.Text>
+                        <Field as='select' className='form-control' id='role' name='role'>
+                        <option defaultValue=''>Seleccione un rol</option>
+                            <option value='1'>Administrador</option>
+                            <option value='2'>Especialista</option>
+                        </Field>
                     <Card.Footer>
                         <Button type='submit'>Crear usuario</Button>
                     </Card.Footer>

@@ -1,16 +1,16 @@
 import {React,forwardRef,useImperativeHandle} from 'react'
 import { useEffect, useState} from 'react';
-import {Button,Table,Alert,InputGroup} from 'react-bootstrap';
+import {Button,Table,Alert} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import Form from 'react-bootstrap/Form';
 import {BsFillEmojiFrownFill} from 'react-icons/bs'
 
 const TablaColeccion=forwardRef(
   (props,ref)=>{
   const navigate = useNavigate();
   const [colecciones, setColecciones] = useState([]);
+  const [individuos,setIndividuos] = useState([]);
 
   useImperativeHandle(ref,()=>({
     Load
@@ -29,33 +29,24 @@ const Load= ()=>{
     },)
 }
 
-
+const LoadColeccionMembers=(id)=>{
+  axios.get(`http://localhost:3001/api/individuos/byColeccion/${id}`,{headers: {'token': localStorage.getItem('token')}}).then((res)=>{
+    setIndividuos(res.data)
+  });
+}
   return (
     <div>
-      <div name='filtrado'>
-      </div>
       <div name='tabla de colecciones'>
       {
         colecciones.length===0?
-        <>
-        <Alert variant='danger' style={{textAlign: 'center'}}>No existen elementos para mostrar <BsFillEmojiFrownFill/></Alert>
-        </>:
-        <>
-          <label className='form-label'>Filtrar elementos</label>
-          <InputGroup>
-            <Form.Control placeholder='Id'></Form.Control>
-            <Form.Control placeholder='Nombre vulgar'></Form.Control>
-            <Form.Control placeholder='Nombre científico'></Form.Control>
-            <Form.Control placeholder='Nombre familia'></Form.Control>
-          </InputGroup>
-         <Table striped hover style={{textAlign: 'center'}}>
+        <Alert variant='danger' style={{textAlign: 'center'}}>No existen elementos para mostrar <BsFillEmojiFrownFill/></Alert>:
+        <Table striped hover style={{textAlign: 'center'}}>
           <thead>
             <tr>
               <th>ID</th>
               <th>Nombre Vulgar</th>
               <th>Nombre Cientifico</th>
               <th>Nombre de la familia</th>
-              <th>Posicion</th>
               <th>Ver Ficha</th>
             </tr>
           </thead>
@@ -67,14 +58,12 @@ const Load= ()=>{
               <td>{value.nombreVulgar}</td>
               <td>{value.nombreCientifico}</td>
               <td>{value.nombreFamilia}</td>
-              <td><Button disabled>Ver en el mapa</Button></td>
               <td><Button variant='primary' onClick={()=>{navigate(`/colecciones/${value.id}`)}}>Ver</Button></td>
               </tr>
               )
             })} 
           </tbody>         
         </Table>
-        </>
       }
       </div>   
     </div>

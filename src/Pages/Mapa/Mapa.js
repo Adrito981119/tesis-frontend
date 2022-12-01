@@ -1,4 +1,4 @@
-import {React,useState,useEffect} from 'react'
+import {React,useState,useEffect,useRef} from 'react'
 import { useNavigate } from 'react-router-dom'
 import './Mapa.css'
 import 'leaflet/dist/leaflet.css'
@@ -9,6 +9,7 @@ import Menu from '../../Components/Menu/Menu'
 import {MapContainer, Marker, Popup, TileLayer} from 'react-leaflet'
 import {Button, Card} from 'react-bootstrap'
 import axios from 'axios';
+import AuthMiddleware from '../../helpers/AuthMiddleware'
 
 
 function Mapa() {

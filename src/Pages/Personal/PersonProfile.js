@@ -6,12 +6,13 @@ import * as Yup from 'yup'
 import {Formik,Form,Field,ErrorMessage} from 'formik'
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Menu from '../../Components/Menu/Menu'
-import {BsFillPencilFill,BsCheckLg,BsXLg} from 'react-icons/bs'
+import Menu from '../../Components/Menu/Menu';
+import {BsFillPencilFill,BsCheckLg,BsXLg} from 'react-icons/bs';
+import moment from 'moment'
+import 'moment/locale/es';
 
 function PersonProfile() {
   const navigate = useNavigate();
-
 
   const [show, setShow] = useState(false);
 
@@ -80,7 +81,6 @@ function PersonProfile() {
               })
             }
           )
-
         }
 
         const editSchema= Yup.object().shape({
@@ -105,7 +105,7 @@ function PersonProfile() {
   return (
     <div>
       <Menu/>
-            <Container fluid='true'>
+            <Container>
         <Row mb-1='true'>
           <Col>
           <Card style={{ width: '75%', margin: 'auto', marginTop: '50px' }} bg='light'>
@@ -117,7 +117,7 @@ function PersonProfile() {
                       <Button className='editButton' onClick={()=>{setEditMode(true)}}><BsFillPencilFill/></Button>
                     </Card.Header>
                       <Card.Body>
-                        <Card.Text>Contratado: {person.createdAt}</Card.Text>
+                        <Card.Text>Contratado: {moment(person.createdAt).locale('es').format('DD [de] MMMM [del] YYYY')}</Card.Text>
                         <Card.Text>Carnet de identidad: {person.ci}</Card.Text>
                         <Card.Text>Nombre completo: {person.fullname}</Card.Text>
                         <Card.Text>Correo electrónico: {person.email}</Card.Text>

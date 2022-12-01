@@ -5,18 +5,17 @@ import axios from 'axios';
 import {Formik, Form, Field, ErrorMessage} from 'formik'
 import * as Yup from 'yup'
 import Menu from '../../Components/Menu/Menu'
+import { useNavigate } from 'react-router-dom';
+import TablaRegistro from '../../Components/Colecciones/TablaRegistro.js';
 
 function Colecciones() {
-
+  const navigate = useNavigate()
   const tablaRef = useRef()
-
   const initialValues={
       id:'',
       nombreVulgar:'',
       nombreCientifico:'',
       nombreFamilia:'',
-      posicion:'',
-      cant: '',
   }
 
   const onSubmit=(data,{resetForm})=>{
@@ -24,7 +23,7 @@ function Colecciones() {
       tablaRef.current.Load()
       resetForm()
   })
-
+  alert('Coleccion Creada')
 }
 
   const coleccionSchema= Yup.object().shape({
@@ -36,15 +35,13 @@ function Colecciones() {
     .required('Este campo es obligatorio'),
     nombreFamilia:Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
     .required('Este campo es obligatorio'),
-    posicion:Yup.string().trim('No puede contener espacios al inicio ni al final').strict(),
-    cant: Yup.number().positive()
   })
 
 
   return (
-  <div className='component'>
+  <div>
     <Menu/>
-    <Container fluid>
+    <Container>
     <Tabs defaultActiveKey='tabla'>
       <Tab eventKey='tabla' title='Tabla de colecciones'>
         <Row>
@@ -61,14 +58,27 @@ function Colecciones() {
 
       </Tab>
 
+      <Tab eventKey='record' title='Registro de colecciones'>
+        <Row>
+          <Col>
+          <Card>
+            <Card.Header>Registro de colecciones</Card.Header>
+            <Card.Body>
+              <TablaRegistro/>
+            </Card.Body>
+          </Card>
+
+          </Col>
+        </Row>
+
+      </Tab>
+
       <Tab eventKey='formulario' title='Crear coleccion'>
     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={coleccionSchema} >
       <Form>
-        <Row>
-            <Col>
-                  <Card bg='light'>
-                  <Card.Body>
-                    <Card.Header>Id y nombres</Card.Header>
+                  <Card style={{width: '50%', margin: 'auto'}}>
+                  <Card.Header>Crear colección</Card.Header>
+                  <Card.Body>                 
                           <Card.Text>Id:</Card.Text>
                           <Field className='form-control' id='id' name='id' type='text' autoComplete='off'/>
                           <ErrorMessage name='id' component='span'/>
@@ -81,36 +91,12 @@ function Colecciones() {
                           <Card.Text>Familia de individuos:</Card.Text>
                           <Field className='form-control' id='nombreFamilia' name='nombreFamilia' type='text' autoComplete='off'/>
                           <ErrorMessage name='nombreFamilia' component='span'/>
+                          <div style={{marginTop: '15px'}}>
+                          <Button variant='success' type='submit'>Crear Coleccion</Button>
+                          </div>
+                          
                   </Card.Body>
                 </Card>
-            </Col>
-
-            <Col>
-            <Card bg='light'>
-                  <Card.Body>
-                    <Card.Header>Posicion</Card.Header>
-                          <Card.Text>Posicion:</Card.Text>
-                          <Field className='form-control' id='posicion' name='posicion' type='text' autoComplete='off' />
-                          <ErrorMessage name='posicion' component='span'/>
-                          <Card.Text>Cantidad de elementos:</Card.Text>
-                          <Field className='form-control' id='cant' name='cant' type='text' autoComplete='off' />
-                          <ErrorMessage name='cant' component='span'/>
-                  </Card.Body>
-                </Card>
-
-                <Row style={{marginTop: '5px', alignContent: 'center'}}>
-                <Col>
-                <Card bg='light'  style={{width: '50%'}}>
-                    <Card.Body>
-                      <Button variant='success' type='submit'>Crear Coleccion</Button>
-                      <Button variant='danger' type='button' style={{marginLeft:'15px'}}>Cancelar</Button>
-                    </Card.Body>
-                </Card>
-                </Col>
-              </Row>
-
-            </Col>
-      </Row>
       </Form>
     </Formik>
     </Tab>

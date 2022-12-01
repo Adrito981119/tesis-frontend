@@ -29,16 +29,14 @@ const TablaPersonal = forwardRef(
     <div>
       {
         personal.length===0?
-        <>
-        <Alert variant='danger' style={{textAlign: 'center', marginTop: '25px'}}>No existe elementos para mostrar<BsFillEmojiFrownFill/></Alert>
-        </>:
+        <Alert variant='danger' style={{textAlign: 'center', marginTop: '25px'}}>No existe elementos para mostrar<BsFillEmojiFrownFill/></Alert>:
         <>
         <div name='filtrado'>
     <label className='form-label'>Filtrar elementos</label>
-    <InputGroup>
+{/*     <InputGroup>
       <Form.Control placeholder='Carnet de identidad'></Form.Control>
       <Form.Control placeholder='Nombre'></Form.Control>
-    </InputGroup>
+    </InputGroup> */}
     </div>
     <div name='tabla de personal'>
       <Table striped hover style={{textAlign: 'center'}}>

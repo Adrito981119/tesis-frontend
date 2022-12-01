@@ -43,12 +43,12 @@ const TablaIndividuos=forwardRef(
       <>
       <div name='filtrado'>
     <label className='form-label'>Filtrar elementos</label>
-    <InputGroup>
+   {/*  <InputGroup>
       <Form.Control placeholder='ID'></Form.Control>
       <Form.Control placeholder='Nombre Vulgar'></Form.Control>
       <Form.Control placeholder='Nombre científico'></Form.Control>
       <Form.Control placeholder='Nombre familia'></Form.Control>
-    </InputGroup>
+    </InputGroup> */}
     </div>
     <div name='tabla de colecciones'>
       <Table striped hover style={{textAlign: 'center'}}>

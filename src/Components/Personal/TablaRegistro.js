@@ -2,13 +2,12 @@ import { React,useEffect, useState,forwardRef,useImperativeHandle} from 'react';
 import { Table,InputGroup,Alert,Row,Card,OverlayTrigger,Popover,Button} from 'react-bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'leaflet/dist/leaflet.css';
-import { MapContainer,Marker,TileLayer,Popup } from 'react-leaflet';
-import markerIcon from 'leaflet/dist/images/marker-icon.png'
 import axios from 'axios';
 import {BsFillEmojiFrownFill} from 'react-icons/bs'
 import Form from 'react-bootstrap/Form';
 import CustomModal from '../CustomModal';
-import { Icon } from 'leaflet';
+import 'moment/locale/es';
+import moment from 'moment';
 
 
 const TablaRegistro=forwardRef(
@@ -69,7 +68,7 @@ const TablaRegistro=forwardRef(
                       <Card.Text>Correo Electrónico: {value.email}</Card.Text>
                       <Card.Text>Telefono: {value.telefono}</Card.Text>         
                       <Card.Text>Cargo: {value.car}</Card.Text>
-                      <Card.Text>Fecha de salida: {value.fechacambio}</Card.Text>
+                      <Card.Text>Fecha de salida: {moment(value.fechacambio).locale('es').format('DD [de] MMMM [del] YYYY')}</Card.Text>
                       </Card>
                     </Row>
                   }

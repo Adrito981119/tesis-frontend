@@ -69,10 +69,10 @@ function Individuos(props) {
         .required('Este campo es obligatorio'),
         nombreFamilia:Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
         .required('Este campo es obligatorio'),
-        latitud: Yup.number(),
-        longitud: Yup.number(),
-        diametro: Yup.number().required(),
-        altura: Yup.number().required(),
+        latitud: Yup.number('Debe ser un valor numérico').required('Este campo es obligatorio'),
+        longitud: Yup.number('Debe ser un valor numérico').required('Este campo es obligatorio'),
+        diametro: Yup.number('Debe ser un valor numérico').required('Este campo es obligatorio'),
+        altura: Yup.number('Debe ser un valor numérico').required('Este campo es obligatorio'),
         coleccionID: Yup.string().trim('No puede contener espacios al inicio ni al final').strict()
         .required('Los individuos deben pertenecer a una coleccion')
     })
@@ -87,7 +87,7 @@ function Individuos(props) {
   return (
     <div>
       <Menu/>
-      <Container fluid >
+      <Container>
         
     <Tabs defaultActiveKey='tabla' style={{marginTop: '15px'}}>
       <Tab eventKey='tabla' title='Tabla de individuos'>
@@ -133,17 +133,23 @@ function Individuos(props) {
                   <Card.Header>Datos fisicos</Card.Header>
                   <Card.Body>
                         <Card.Text>Altura:</Card.Text>
-                        <Field className='form-control' id='altura' name='altura' autoComplete='off'/>
-                        <ErrorMessage name='nombreFamilia' component='span'/>
+                        <Field className='form-control' id='altura' name='altura' placeholder='Expresada en centímetros' autoComplete='off'/>
+                        <ErrorMessage name='altura' component='span'/>
                         <Card.Text>Diámetro:</Card.Text>
-                        <Field className='form-control' id='diametro' name='diametro' autoComplete='off'/>
+                        <Field className='form-control' id='diametro'  placeholder='Expresada en centímetros' name='diametro' autoComplete='off'/>
                         <ErrorMessage name='diametro' component='span'/>
                         <Row>
                           <Col>
                           <Card.Text>Latitud</Card.Text>
-                          <Field className='form-control' type='text' id='latitud' name='latitud'autoComplete='off'/>
+                          <Field className='form-control' disabled 
+                          type='text' id='latitud' name='latitud'
+                          autoComplete='off' placeholder='Vista previa de la latitud'/>
+                          <ErrorMessage name='latitud' component='span'/>
                           <Card.Text>Longitud</Card.Text>
-                          <Field className='form-control' type='text' id='longitud' name='longitud'autoComplete='off'/>           
+                          <Field className='form-control' disabled
+                           type='text' id='longitud' name='longitud'
+                           autoComplete='off' placeholder='Vista previa de la longitud'/>
+                           <ErrorMessage name='longitud' component='span'/>           
                           </Col>
                           
                           <Col style={{marginTop: '65px'}}>
@@ -191,7 +197,7 @@ function Individuos(props) {
                                 list.map((value)=>{
                                   return(
                                     <option key={value.id} value={value.id} id={value.id} name={value.id}>
-                                      {value.nombreCientifico}
+                                      {value.nombreVulgar}
                                     </option>
                                   )
                                 })

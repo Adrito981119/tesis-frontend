@@ -1,6 +1,6 @@
 import {React,useEffect,useState} from 'react'
 import { useParams } from 'react-router-dom'
-import {Container, Row,Button, Card,Col,ButtonGroup,Dropdown,DropdownButton,Modal} from 'react-bootstrap';
+import {Container, Row,Button, Card,Col,ButtonGroup,Table,Modal} from 'react-bootstrap';
 import { Formik,Form,Field,ErrorMessage } from 'formik';
 import {BsFillPencilFill,BsCheckLg,BsXLg,BsThreeDots} from 'react-icons/bs'
 import * as Yup from 'yup'
@@ -11,12 +11,15 @@ import './Individuos.css'
 import CustomModal from '../../Components/CustomModal'
 import Menu from '../../Components/Menu/Menu'
 import DropdownItem from 'react-bootstrap/esm/DropdownItem';
+import 'moment/locale/es';
+import moment from 'moment';
 
 function IndividuosProfile() {
   const navigate = useNavigate();
 
   const {id} = useParams();
   const [individuo,setIndividuo]   = useState({});
+  const [record,setRecord] = useState([])
   const [edit,setEditMode] = useState(false)
 
 
@@ -27,12 +30,19 @@ function IndividuosProfile() {
 
   useEffect(()=>{
       LoadInd()
+      LoadRecord()
       // eslint-disable-next-line react-hooks/exhaustive-deps
       },[individuo.id])
 
       const LoadInd=()=>{
         axios.get(`http://localhost:3001/api/individuos/${id}`,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
           setIndividuo(res.data)
+      });
+      }
+
+      const LoadRecord=()=>{
+        axios.get(`http://localhost:3001/api/individuos/record/${id}`,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
+          setRecord(res.data)
       });
       }
 
@@ -103,7 +113,6 @@ function IndividuosProfile() {
             coleccionID: individuo.coleccionID
           }
           axios.post('http://localhost:3001/api/individuos/record',prevState,{headers:{'token':localStorage.getItem('token')}}).then((res)=>{
-            console.log(res)
           })
         }
           axios.delete(`http://localhost:3001/api/individuos/${individuo.id}`,{headers:{'token':localStorage.getItem('token')}}).then((res)=>{
@@ -134,7 +143,7 @@ function IndividuosProfile() {
   return (
     <div>
       <Menu/>
-      <Container fluid='true'>
+      <Container>
         <Row mb-1='true'>
         <Col>
             <Card style={{ width: '75%', margin: 'auto', marginTop: '50px' }} bg='light'>
@@ -143,14 +152,7 @@ function IndividuosProfile() {
                 <>
                         <Card.Header className='editCardHeader'> 
                       <p><strong>Individuo</strong></p>
-                      <DropdownButton className='editButton' title={<BsThreeDots/>}>
-                        <DropdownItem onClick={()=>{setEditMode(true)}}>
-                         <BsFillPencilFill/> Editar datos
-                        </DropdownItem>
-                        <Dropdown.Item>
-                          Trasladar individuo
-                        </Dropdown.Item>
-                      </DropdownButton>
+                      <Button className='editButton' onClick={()=>{setEditMode(true)}}><BsFillPencilFill/></Button>
                     </Card.Header>
                       <Card.Body>
                         <Card.Text>Id: {individuo.id}</Card.Text>
@@ -163,7 +165,41 @@ function IndividuosProfile() {
                       </Card.Body>
                       <Card.Footer>
                             <ButtonGroup>
-
+                            {
+                              record.length !== 0?
+                              <>
+                                                          <CustomModal
+                            name='Mostrar registro'
+                            title='Registro del individuo'
+                            body={
+                              <>
+                              <Table striped hover>
+                                <thead>
+                                  <tr>
+                                    <th>Fecha del cambio</th>
+                                    <th>Motivo</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {
+                                    record.map(
+                                      (value)=>{
+                                        return(
+                                          <tr>
+                                            <td>{moment(value.fechacambio).locale('es').format('DD [de] MMMM [del] YYYY')}</td>
+                                            <td>{value.motivo}</td>
+                                          </tr>
+                                        )
+                                      }
+                                    )
+                                  }
+                                </tbody>
+                              </Table>
+                              </>
+                            }
+                            />
+                              </>:<></>
+                            }
                             <Button variant= 'danger' onClick={handleShow}>
                               Eliminar
                             </Button>
@@ -195,7 +231,6 @@ function IndividuosProfile() {
                             </Form>
                             </Formik>
                             </Modal>
-                              <Button>Trasladar individuo</Button>
                               <Button variant='secondary' type='button' onClick={()=>{navigate('/individuos')}}>Atrás</Button>
                             </ButtonGroup>
                       </Card.Footer> 

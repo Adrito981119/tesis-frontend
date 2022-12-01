@@ -35,6 +35,7 @@ function Personal() {
       axios.post('http://localhost:3001/api/personal',person,{headers:{'token': localStorage.getItem('token')}}).then((res)=>{
         pRef.current.Load()
         resetForm()
+        alert('Añadido')
       })
      }else{
       alert('El carnet de identidad no es correcto')
@@ -45,7 +46,7 @@ function Personal() {
 
   const ciRegex = '^[0-9]+[0-9]$'
   const nameRegex = '^[a-zA-Z ]+[a-zA-Z ]$'
-  const phoneRegex = '^[+53 ]+[5]+[0-9]+[0-9]$'
+  const phoneRegex = '^[5]+[0-9]+[0-9]$'
   const ciValidator=(ci)=>{
     const d = moment(ci[0]+ci[1]+ci[2]+ci[3]+ci[4]+ci[5],'YYMMDD')
     return d.isValid()
@@ -69,14 +70,16 @@ function Personal() {
 
       telefono: Yup.string('Debe ser un NUMERO')
       .trim('No puede contener espacios al inicio ni al final').strict()
-      .matches(phoneRegex,{message: 'El formato no es valido. Ej: +53 55555555'}),
+      .min(8,'El número de teléfono debe contener 8 caracteres')
+      .max(8,'El número de teléfono debe contener 8 caracteres')
+      .matches(phoneRegex,{message: 'Debe ser un telefono móvil cubano.'}),
 
       cargo:Yup.string().trim('No puede contener espacios al inicio ni al final').strict(),
     })
   return (
     <div>
       <Menu/>
-      <Container fluid>
+      <Container>
         <Tabs defaultActiveKey='tabla' className='mb-3'>
           <Tab eventKey='tabla' title='Tabla de personal'>
           <Row>
@@ -109,7 +112,7 @@ function Personal() {
                   <Field className='form-control' id='email' name='email' type='email' placeholder='Insensible a la mayúscula' autoComplete='off'/>
                   <ErrorMessage name='email' component='span' />
                   <Card.Text>Telefono</Card.Text>
-                  <Field className='form-control' id='telefono' name='telefono' placeholder='Formato +53xxxxxxxx' autoComplete='off'/>
+                  <Field className='form-control' id='telefono' name='telefono' placeholder='No es necesario insertar +53' autoComplete='off'/>
                   <ErrorMessage name='telefono' component='span' />
                   <Card.Text>Cargo</Card.Text>
                   <Field className='form-control' id='cargo' name='cargo' autoComplete='off'/>
