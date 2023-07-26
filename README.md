@@ -1,3 +1,11 @@
+Hola, los proyectos de tesis pueden ser estresantes lo se en carne propia😁, aunque poco espero que esta pequeña contribucion les sea de ayuda.
+
+Estuve usando en su momento React, con Material como libreria css
+
+Clonen el proyecto o descarguelo como un zip, ejecuten `npm i` en la consola para que instale las dependencias y `npm start` para echarlo a andar.
+
+De nuevo, espero que les sirva, cualquier duda no duden en preguntar [Telegram](https://t.me/Adr1to)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
