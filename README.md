@@ -1,4 +1,4 @@
-This project was developed in 2021 and is DEPRICATED. There once was a dark times were using pain....sorry, plain React was something to do. Meanwhile this project can be used as a web developmet musseum, I personally use it to see how I start and how experience has improve my work😂.
+This project was developed in 2021 and is DEPRICATED. There once was a dark times were using pain....sorry, plain React was something to do. Meanwhile this project can be used as a web development musseum, I personally use it to see how I start and how experience has improve my work😂.
 
 Hola, los proyectos de tesis pueden ser estresantes lo se en carne propia😁, aunque poco espero que esta pequeña contribucion les sea de ayuda.
 
